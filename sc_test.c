@@ -14,6 +14,8 @@ int main() {
     sc_memoryGet(99, &from_sc_memory);
     printf("From sc_memory:%d\n", from_sc_memory);
     sc_memorySave("test_sc_memorySave.bin");
+    sc_memoryInit();
+    sc_memoryLoad("test_sc_memorySave.bin");
     dbg_print_sc_memory();
     return 0;
 }

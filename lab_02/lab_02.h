@@ -15,5 +15,7 @@ int sc_memoryGet(int address, int *value);
 /* */
 int sc_memorySave(char *filename);
 
+int sc_memoryLoad(char* filename);
+
 /* my dbg */
 int dbg_print_sc_memory();

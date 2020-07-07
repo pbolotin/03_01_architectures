@@ -48,6 +48,21 @@ int sc_memorySave(char* filename) {
     return 0;
 }
 
+/* sc_memory save to disk */
+int sc_memoryLoad(char* filename) {
+    FILE* file_descriptor;
+    file_descriptor = fopen(filename, "rb");
+    if(file_descriptor == NULL) {
+        return -1;
+    }
+    int how_many = fread(sc_memory, sizeof(sc_memory[0]), SC_MEMORY_SIZE, file_descriptor);
+    printf("how many was loaded: %d\n", how_many);
+    if(how_many != SC_MEMORY_SIZE) {
+        return -1;
+    }
+    fclose(file_descriptor);
+    return 0;
+}
 
 /* my debug*/
 int dbg_print_sc_memory() {
