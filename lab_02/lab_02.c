@@ -71,7 +71,7 @@ int sc_regInit(void) {
     return 0;
 }
 
-/* Set particular flag-register by value */
+/* Set particular flag-register with value */
 int sc_regSet(int what_register, int value) {
     if(value == 0) {
         flag_register &= ~what_register;
@@ -80,6 +80,28 @@ int sc_regSet(int what_register, int value) {
     } else {
         return -1;
     }
+    return 0;
+}
+
+int is_register_number(int reg_number) {
+    if (reg_number == FLAG_01 || 
+        reg_number == FLAG_02 ||
+        reg_number == FLAG_03 ||
+        reg_number == FLAG_04 ||
+        reg_number == FLAG_05 ||
+        reg_number == FLAG_06 ||
+        reg_number == FLAG_07 ||
+        reg_number == FLAG_08 ||
+        reg_number == FLAG_09) return 1;
+    else return 0;
+}
+
+/* Get value of particular flag-register */
+int sc_regGet(int what_register, int *value) {
+    if(value == NULL) return -1;
+    if(!is_register_number(what_register)) return -1;
+    if(flag_register & what_register) *value = 1;
+    else *value = 0;
     return 0;
 }
 

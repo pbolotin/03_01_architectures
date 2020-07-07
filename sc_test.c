@@ -25,5 +25,10 @@ int main() {
     sc_regSet(FLAG_02, 1);
     sc_regSet(FLAG_03, 0);
     dbg_print_flag_register();
+    
+    int from_flag_register = 0;
+    int return_code = sc_regGet(FLAG_02, &from_flag_register);
+    printf("return code of sc_regGet:%d\n", return_code);
+    printf("from flag_register:%d\n", from_flag_register);
     return 0;
 }

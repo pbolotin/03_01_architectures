@@ -33,6 +33,8 @@ int sc_regInit(void);
 
 int sc_regSet(int what_flag, int value);
 
+int sc_regGet(int what_register, int *value);
+
 /* my dbg */
 
 int dbg_print_sc_memory();
