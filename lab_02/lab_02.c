@@ -32,7 +32,7 @@ int sc_memoryGet(int address, int *value) {
     return -1;
 }
 
-/* sc_memory save to disk */
+/* save sc_memory to disk */
 int sc_memorySave(char* filename) {
     FILE* file_descriptor;
     file_descriptor = fopen(filename, "wb");
@@ -48,7 +48,7 @@ int sc_memorySave(char* filename) {
     return 0;
 }
 
-/* sc_memory save to disk */
+/* load sc_memory from disk */
 int sc_memoryLoad(char* filename) {
     FILE* file_descriptor;
     file_descriptor = fopen(filename, "rb");
