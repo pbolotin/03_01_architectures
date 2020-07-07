@@ -3,6 +3,7 @@
 
 unsigned int sc_memory[SC_MEMORY_SIZE];
 char flag_outbound = 0;
+unsigned int flag_register;
 
 /* Initialize memory of Simple Computer by zeros */
 int sc_memoryInit() {
@@ -64,7 +65,15 @@ int sc_memoryLoad(char* filename) {
     return 0;
 }
 
-/* my debug*/
+/* initialization of flag-register by zero */
+int sc_regInit(unsigned int initialization_set) {
+    flag_register = initialization_set;
+    return 0;
+}
+
+/* ****************** */
+/* my debug functions */
+/* ****************** */
 int dbg_print_sc_memory() {
     for(int i = 0; i < SC_MEMORY_SIZE; i++) {
         if(i % 10 == 0) {
@@ -72,5 +81,17 @@ int dbg_print_sc_memory() {
         }
         printf("%4d", sc_memory[i]);
     }
+    printf("\n");
+    return 0;
+}
+
+/* print flag-register by bites */
+int dbg_print_flag_register() {
+    int bitsize = sizeof(flag_register) * 8;
+    printf("flag register:\n");
+    for(int i = 0; i < bitsize; i++) {
+        printf("%d", 1 & (flag_register >> i));
+    }
+    printf("\n");
     return 0;
 }

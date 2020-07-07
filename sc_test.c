@@ -17,5 +17,8 @@ int main() {
     sc_memoryInit();
     sc_memoryLoad("test_sc_memorySave.bin");
     dbg_print_sc_memory();
+    
+    sc_regInit(15);
+    dbg_print_flag_register();
     return 0;
 }
