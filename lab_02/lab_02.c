@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include "lab_02.h"
 
-unsigned int sc_memory[SC_MEMORY_SIZE];
+int sc_memory[SC_MEMORY_SIZE];
 char flag_outbound = 0;
-unsigned int flag_register;
+int flag_register;
 
 /* Initialize memory of Simple Computer by zeros */
 int sc_memoryInit() {
@@ -66,8 +66,20 @@ int sc_memoryLoad(char* filename) {
 }
 
 /* initialization of flag-register by zero */
-int sc_regInit(unsigned int initialization_set) {
-    flag_register = initialization_set;
+int sc_regInit(void) {
+    flag_register = 0;
+    return 0;
+}
+
+/* Set particular flag-register by value */
+int sc_regSet(int what_register, int value) {
+    if(value == 0) {
+        flag_register &= ~what_register;
+    } else if(value == 1) {
+        flag_register |= what_register;
+    } else {
+        return -1;
+    }
     return 0;
 }
 
