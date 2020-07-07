@@ -32,7 +32,24 @@ int sc_memoryGet(int address, int *value) {
     return -1;
 }
 
-/* */
+/* sc_memory save to disk */
+int sc_memorySave(char* filename) {
+    FILE* file_descriptor;
+    file_descriptor = fopen(filename, "wb");
+    if(file_descriptor == NULL) {
+        return -1;
+    }
+    int how_many = fwrite(sc_memory, sizeof(sc_memory[0]), SC_MEMORY_SIZE, file_descriptor);
+    printf("how many was saved: %d\n", how_many);
+    if(how_many != SC_MEMORY_SIZE) {
+        return -1;
+    }
+    fclose(file_descriptor);
+    return 0;
+}
+
+
+/* my debug*/
 int dbg_print_sc_memory() {
     for(int i = 0; i < SC_MEMORY_SIZE; i++) {
         if(i % 10 == 0) {

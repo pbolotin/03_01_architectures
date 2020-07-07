@@ -12,7 +12,8 @@ int sc_memorySet(int address, int value);
 /* get value from sc_memory */
 int sc_memoryGet(int address, int *value);
 
-/* 
+/* */
+int sc_memorySave(char *filename);
 
 /* my dbg */
 int dbg_print_sc_memory();
