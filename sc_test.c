@@ -30,5 +30,16 @@ int main() {
     int return_code = sc_regGet(FLAG_02, &from_flag_register);
     printf("return code of sc_regGet:%d\n", return_code);
     printf("from flag_register:%d\n", from_flag_register);
+    
+    int toEncodeCommand = 0;
+    return_code = sc_commandEncode(OP_01_READ, 16, &toEncodeCommand);
+    printf("return code of sc_encodeCommand:%d\n", return_code);
+    printf("toEncodeCommand:%d\n", toEncodeCommand);
+    dbg_print_command(toEncodeCommand);
+    
+    int toDecodeCommand;
+    int toDecodeOperand;
+    return_code = sc_commandDecode(toEncodeCommand, &toDecodeCommand, &toDecodeOperand);
+    
     return 0;
 }
