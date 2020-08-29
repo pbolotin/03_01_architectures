@@ -40,6 +40,9 @@ int main() {
     int toDecodeCommand;
     int toDecodeOperand;
     return_code = sc_commandDecode(toEncodeCommand, &toDecodeCommand, &toDecodeOperand);
+    printf("return code of sc_decodeCommand:%d\n", return_code);
+    printf("toDecodeCommand:%d and Operand:%d\n", toDecodeCommand, toDecodeOperand);
+    dbg_print_command_and_operand(toDecodeCommand, toDecodeOperand);
     
     return 0;
 }
