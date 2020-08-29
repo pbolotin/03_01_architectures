@@ -2,7 +2,7 @@
 #include "lab_03.h"
 
 int mt_clrscr(void) {
-    if(printf("mt_clrscr\n") < 0) {
+    if(printf(CLEAR_SEQ) < 0) {
         return -1;
     }
     return 0;

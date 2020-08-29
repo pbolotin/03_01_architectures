@@ -3,6 +3,7 @@
 
 enum colors {BLACK, RED, GREEN, BLUE};
 
+#define CLEAR_SEQ "\E[H\E[2J"
 int mt_clrscr(void);
 
 int mt_gotoXY(int, int);
