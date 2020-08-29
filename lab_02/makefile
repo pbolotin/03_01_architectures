@@ -1,12 +1,12 @@
 .phony : all clean
 
-all : lab_02.a
+all : liblab_02.a
 
-lab_02.a : lab_02.o
-		ar -rcDsv lab_02.a lab_02.o
+liblab_02.a : lab_02.o
+		ar -rcDsv liblab_02.a lab_02.o
 
 lab_02.o : lab_02.c lab_02.h
 		gcc -c lab_02.c -o lab_02.o
 
 clean :
-		rm -f *.o lab_02.a
+		rm -f *.o liblab_02.a
