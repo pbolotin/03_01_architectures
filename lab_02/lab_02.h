@@ -10,6 +10,10 @@
 #define FLAG_08 0x80
 #define FLAG_09 0x100
 
+#define IS_COMMAND 0x4000
+#define MASK_OF_COMMAND 0x3f80
+#define MASK_OF_OPERAND 0x7f
+
 #define OP_01_READ 10
 #define OP_01_WRITE 11
 
@@ -94,4 +98,6 @@ int dbg_print_sc_memory();
 
 int dbg_print_flag_register();
 
-int dbg_print_command();
+int dbg_print_command(int);
+
+int dbg_print_command_and_operand(int, int);

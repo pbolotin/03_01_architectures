@@ -178,15 +178,76 @@ int sc_commandEncode(int command, int operand, int* value) {
     int bild_encode = 0;
     bild_encode |= (command << 7);
     bild_encode |= operand;
+    bild_encode |= IS_COMMAND;
     *value = bild_encode;
     return 0;
 }
 
 int sc_commandDecode(int value, int* command, int* operand) {
     if(command == NULL || operand == NULL) return -1;
-    int for_command = 0;
-    int for_operand = 0;
-    for_command = value & 0x0000FFFF;
+    *command = 0x00000000;
+    *operand = 0x00000000;
+    if(0 == (value | IS_COMMAND)) {
+        return -1;
+    }
+    /* check command */
+    switch((value & MASK_OF_COMMAND)>>7) {
+    case OP_01_READ://op 0-99
+    case OP_01_WRITE://op 0-99
+    
+    case OP_02_LOAD://op 0-99
+    case OP_02_STORE://op 0-99
+
+    case OP_03_ADD://op 0-99
+    case OP_03_SUB://op 0-99
+    case OP_03_DIVIDE://op 0-99
+    case OP_03_MUL://op 0-99
+
+    case OP_04_JUMP://op 0-99
+    case OP_04_JNEG://op 0-99
+    case OP_04_JZ://op 0-99
+    case OP_04_HALT://op any
+
+    case OP_05_NOT://op 0-99
+    case OP_05_AND://op 0-99
+    case OP_05_OR://op 0-99
+    case OP_05_XOR://op 0-99
+
+    case OP_06_JNS://op 0-99
+    case OP_06_JC://op 0-99
+    case OP_06_JNC://op 0-99
+    case OP_06_JP://op 0-99
+    case OP_06_JNP://op 0-99
+
+    case OP_07_CHL://op 0-99
+    case OP_07_SHR://op 0-99
+    case OP_07_RCL://op 0-99
+    case OP_07_RCR://op 0-99
+
+    case OP_08_NEG://op 0-99
+
+    case OP_09_ADDC://op 0-99
+    case OP_09_SUBC://op 0-99
+
+    case OP_10_LOGLC://op 0-99
+    case OP_10_LOGRC://op 0-99
+    case OP_10_RCCL://op 0-99
+    case OP_10_RCCR://op 0-99
+
+    case OP_11_MOVA://op 0-99
+    case OP_11_MOVR://op 0-99
+    case OP_11_MOVCA://op 0-99
+    case OP_11_MOVCR://op 0-99
+       
+    case OP_12_ADDC://op 0-99
+    case OP_12_SUBC://op 0-99
+        *command = value & MASK_OF_COMMAND;
+    break;
+    default:
+        return -1;
+    }
+    /* get operand */
+    *operand = value & MASK_OF_OPERAND;
     return 0;
 }
 
@@ -223,5 +284,11 @@ int dbg_print_command(int command) {
         printf("%d", 1 & (command >> i));
     }
     printf("\n");
+    return 0;
+}
+
+int dbg_print_command_and_operand(int command, int operand) {
+    printf("Command %d\n", command);
+    printf("Operand %d\n", operand);
     return 0;
 }
