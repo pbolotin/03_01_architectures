@@ -9,4 +9,4 @@ lab_02.o : lab_02.c lab_02.h
 		gcc -c lab_02.c -o lab_02.o
 
 clean :
-		rm -f *.o liblab_02.a
+		rm -f *.o *.a
