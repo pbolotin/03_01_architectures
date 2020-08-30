@@ -9,7 +9,7 @@ int mt_clrscr(void);
 /* if defined MOVEXY_BORDERS
  * then there error will be if there was trying to
  * move cursor out of the screen*/
-//#define MOVEXY_BORDERS
+#define MOVEXY_BORDERS
 
 #define MOVEXY_SEQ_BEGIN "\E["
 #define MOVEXY_SEQ_MIDDLE ";"

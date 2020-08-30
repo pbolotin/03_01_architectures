@@ -1,6 +1,8 @@
 #include <malloc.h>
 #include <stdio.h>
 #include <string.h>
+#include <termios.h>
+#include <sys/ioctl.h>
 #include "lab_03.h"
 
 int mt_clrscr(void) {
@@ -45,11 +47,19 @@ int mt_gotoXY(int X, int Y) {
 }
 
 int mt_getscreensize(int *rows, int *cols) {
-    *rows = 0;
-    *cols = 0;
-    if(printf("mt_getscreensize\n") < 0) {
+    struct winsize ws;
+    //unsigned short ws_row;
+    //unsigned short ws_col;
+    //unsigned short ws_xpixel;   /* unused */
+    //unsigned short ws_ypixel;   /* unused */
+    //0x00005413   TIOCGWINSZ       struct winsize *
+    int ret = ioctl(1, TIOCGWINSZ, (char*)&ws);
+    if(ret < 0) {
+        perror("ioctl in mt_getscreensize\n");
         return -1;
     }
+    *rows = ws.ws_row;
+    *cols = ws.ws_col;
     return 0;
 }
 

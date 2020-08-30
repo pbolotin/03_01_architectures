@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include "lab_03/lab_03.h"
 
 int test_mt_clrscr(void) {
@@ -19,7 +20,7 @@ int test_mt_clrscr(void) {
 }
 
 int test_mt_gotoXY(void) {
-    int i = 0;
+    int i = 1;
     while(-1 != mt_gotoXY(i, i)) {
         printf("%d\n", i);
         i++;
@@ -30,12 +31,35 @@ int test_mt_gotoXY(void) {
     return 0;
 }
 
+int test_mt_getscreensize(void) {
+    printf("test mt_getscreensize:\n");
+    int sizeX, sizeY;
+    if(0 > mt_getscreensize(&sizeX, &sizeY)) {
+        perror("Error in mt_getscreensize\n");
+        exit(EXIT_FAILURE);
+    }
+    printf("Now terminal has %d rows and %d cols\n", sizeY, sizeX);
+    
+    int max_time = 10;
+    printf("You have %d seconds to change terminal size, if you want to test\n", max_time);
+    int i;
+    for(i = max_time; i > 0; i--) {
+        printf("%d\n", i);
+        sleep(1);
+    }
+    if(0 > mt_getscreensize(&sizeX, &sizeY)) {
+        perror("Error in mt_getscreensize\n");
+        exit(EXIT_FAILURE);
+    }
+    printf("Now terminal has %d rows and %d cols\n", sizeY, sizeX);
+    return 0;
+}
+
 int main(void) {
     int sizeX, sizeY;
     test_mt_clrscr();
     test_mt_gotoXY();
-    //mt_gotoXY(10, 10);
-    mt_getscreensize(&sizeX, &sizeY);
+    test_mt_getscreensize();
     mt_setfgcolor(GREEN);
     mt_setbgcolor(BLUE);
     return 0;
