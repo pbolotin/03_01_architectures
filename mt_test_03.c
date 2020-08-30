@@ -18,10 +18,23 @@ int test_mt_clrscr(void) {
     return 0;
 }
 
+int test_mt_gotoXY(void) {
+    int i = 0;
+    while(-1 != mt_gotoXY(i, i)) {
+        printf("%d\n", i);
+        i++;
+        sleep(1);
+    }
+    mt_gotoXY(1, 1);
+    printf("error was at %d, %d position\n", i, i);
+    return 0;
+}
+
 int main(void) {
     int sizeX, sizeY;
     test_mt_clrscr();
-    mt_gotoXY(10, 10);
+    test_mt_gotoXY();
+    //mt_gotoXY(10, 10);
     mt_getscreensize(&sizeX, &sizeY);
     mt_setfgcolor(GREEN);
     mt_setbgcolor(BLUE);
