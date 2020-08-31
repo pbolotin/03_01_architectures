@@ -55,12 +55,30 @@ int test_mt_getscreensize(void) {
     return 0;
 }
 
+int test_mt_setcolors() {
+    enum colors bg, fg;
+    int bg_check, fg_check;
+    for(bg = BG_BLACK; bg <= BG_WHITE; bg++) {
+        if(bg > BG_LIGHT_GRAY && bg < BG_DARK_GRAY) bg = BG_DARK_GRAY;
+        for(fg = FG_BLACK; fg <= FG_WHITE; fg++) {
+            if(fg > FG_LIGHT_GRAY && fg < FG_DARK_GRAY) fg = FG_DARK_GRAY;
+            bg_check = mt_setbgcolor(bg);
+            fg_check = mt_setfgcolor(fg);
+            printf("(%2d %2d)", bg_check, fg_check);
+        }
+        mt_setbgcolor(BG_BLACK);
+        printf("\n");
+    }
+    mt_setfgcolor(FG_LIGHT_GRAY);
+    printf("\n");
+    return 0;
+}
+
 int main(void) {
     int sizeX, sizeY;
     test_mt_clrscr();
     test_mt_gotoXY();
     test_mt_getscreensize();
-    mt_setfgcolor(GREEN);
-    mt_setbgcolor(BLUE);
+    test_mt_setcolors();
     return 0;
 }
