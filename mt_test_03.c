@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include "lab_03/lab_03.h"
+#include <time.h>
+//#include "lab_03/lab_03.h"
+#include "lab_03/myTerm.h"
 
 int test_mt_clrscr(void) {
     printf("test mt_clrscr: screen will be cleared after 5 second:\n");
@@ -20,21 +22,81 @@ int test_mt_clrscr(void) {
 }
 
 int test_mt_gotoXY(void) {
-    int i = 1;
-    while(-1 != mt_gotoXY(i, i)) {
-        printf("%d\n", i);
-        i++;
-        sleep(1);
+    srand(time(NULL));
+    printf("test mt_gotoXY:\n");
+    int sizeX, sizeY;
+    if(0 > mt_getscreensize(&sizeY, &sizeX)) {
+        perror("Error in mt_getscreensize\n");
+        exit(EXIT_FAILURE);
     }
-    mt_gotoXY(1, 1);
-    printf("error was at %d, %d position\n", i, i);
+    printf("Now terminal has %d rows and %d cols\n", sizeY, sizeX);
+    printf("Any error will be printed into stderr stream\n");
+    printf("Put %d symbols in here:\n", sizeX);
+    int i;
+    int check;
+    int x, y;
+    for(i = 1; i <= sizeX; i++) {
+        x = i; y = rand()%sizeY + 1;
+        //printf("Try goto %d %d\n", x, y);
+        check = mt_gotoXY(x, y);
+        if(check < 0) {
+            fprintf(stderr, "Error in mt_gotoXY X=%d Y=%d\n", x, y);
+            sleep(10);
+            break;
+        }
+        printf("%d", i%10);
+        check = mt_gotoXY(1, 1);
+        if(check < 0) {
+            fprintf(stderr, "Error in mt_gotoXY X=%d Y=%d\n", 1, 1);
+            sleep(10);
+            break;
+        }
+        printf("\n");
+    }
+    check = mt_gotoXY(1, 4);
+    if(check < 0) {
+        fprintf(stderr, "Error in mt_gotoXY X=%d Y=%d\n", x, y);
+    }
+    printf("Now test incorrect values of x, y\n");
+    
+    x = 0; y = 1;
+    printf("x=%d y=%d\n", x, y);
+    sleep(2);
+    check = mt_gotoXY(x, y);
+    if(check < 0) {
+        fprintf(stderr, "Error in mt_gotoXY X=%d Y=%d\n", x, y);
+    }
+    
+    x = 1; y = 0;
+    printf("x=%d y=%d\n", x, y);
+    sleep(2);
+    check = mt_gotoXY(x, y);
+    if(check < 0) {
+        fprintf(stderr, "Error in mt_gotoXY X=%d Y=%d\n", x, y);
+    }
+    
+    x = sizeX + 1; y = 1;
+    printf("x=%d y=%d\n", x, y);
+    sleep(2);
+    check = mt_gotoXY(x, y);
+    if(check < 0) {
+        fprintf(stderr, "Error in mt_gotoXY X=%d Y=%d\n", x, y);
+    }
+    
+    x = 1; y = sizeY + 1;
+    printf("x=%d y=%d\n", x, y);
+    sleep(2);
+    check = mt_gotoXY(x, y);
+    if(check < 0) {
+        fprintf(stderr, "Error in mt_gotoXY X=%d Y=%d\n", x, y);
+    }
     return 0;
 }
 
 int test_mt_getscreensize(void) {
     printf("test mt_getscreensize:\n");
     int sizeX, sizeY;
-    if(0 > mt_getscreensize(&sizeX, &sizeY)) {
+    if(0 > mt_getscreensize(&sizeY, &sizeX)) {
         perror("Error in mt_getscreensize\n");
         exit(EXIT_FAILURE);
     }
@@ -47,15 +109,26 @@ int test_mt_getscreensize(void) {
         printf("%d\n", i);
         sleep(1);
     }
-    if(0 > mt_getscreensize(&sizeX, &sizeY)) {
+    if(0 > mt_getscreensize(&sizeY, &sizeX)) {
         perror("Error in mt_getscreensize\n");
         exit(EXIT_FAILURE);
     }
     printf("Now terminal has %d rows and %d cols\n", sizeY, sizeX);
+    printf("Now try to use NULL pointers in mt_getscreensize\n");
+    if(0 > mt_getscreensize(NULL, &sizeX)) {
+        printf("Error in mt_getscreensize\n");
+    }
+    if(0 > mt_getscreensize(&sizeY, NULL)) {
+        printf("Error in mt_getscreensize\n");
+    }
+    if(0 > mt_getscreensize(NULL, NULL)) {
+        printf("Error in mt_getscreensize\n");
+    }
     return 0;
 }
 
 int test_mt_setcolors() {
+    printf("Test mt_setfgcolor  mt_setbgcolor in all right cases:\n");
     enum colors bg, fg;
     int bg_check, fg_check;
     for(bg = BG_BLACK; bg <= BG_WHITE; bg++) {
@@ -70,6 +143,11 @@ int test_mt_setcolors() {
         printf("\n");
     }
     mt_setfgcolor(FG_LIGHT_GRAY);
+    printf("\n");
+    printf("Now try to set incorrect bg and fg colors:\n");
+    fg_check = mt_setfgcolor(BG_WHITE);
+    bg_check = mt_setbgcolor(FG_WHITE);
+    printf("(%2d %2d)", bg_check, fg_check);
     printf("\n");
     return 0;
 }

@@ -16,16 +16,6 @@ int mt_clrscr(void);
 int mt_gotoXY(int X, int Y);
 
 int mt_getscreensize(int *rows, int *cols);
-/*
- * Black       0;30     Dark Gray     1;30
- * Blue        0;34     Light Blue    1;34
- * Green       0;32     Light Green   1;32
- * Cyan        0;36     Light Cyan    1;36
- * Red         0;31     Light Red     1;31
- * Purple      0;35     Light Purple  1;35
- * Brown       0;33     Yellow        1;33
- * Light Gray  0;37     White         1;37
- */
 
 //#define VERSION_01 /* 8 COLORS ALL PAIR FG & BG ARE VISIBLE */
 #define VERSION_02 /* 16 COLORS HAS THE SAME COLORS FG & BG - INVISIBLE TEXT */
@@ -47,16 +37,7 @@ enum colors {FG_BLACK = 30,
              BG_BLUE,
              BG_PURPLE,
              BG_CYAN,
-             BG_LIGHT_GRAY,
-             
-             FG_DARK_GRAY = 130,
-             FG_LIGHT_RED,
-             FG_LIGHT_GREEN,
-             FG_YELLOW,
-             FG_LIGHT_BLUE,
-             FG_LIGHT_PURPLE,
-             FG_LIGHT_CYAN,
-             FG_WHITE,
+             BG_LIGHT_GRAY
 };
 
 #define BG_DARK_GRAY BG_BLACK
@@ -81,13 +62,12 @@ enum colors {FG_BLACK = 30,
 #define SETFG_SEQ_END "m"
 #define SETFG_SEQ_BEGIN_L "\E["
 #define SETFG_SEQ_END_L ";1m"
-int mt_setfgcolor(enum colors fg);
 
 #define SETBG_SEQ_BEGIN "\E[0;"
 #define SETBG_SEQ_END "m"
 #define SETBG_SEQ_BEGIN_L "\E[0;"
 #define SETBG_SEQ_END_L "m"
-int mt_setbgcolor(enum colors bg);
+
 #endif
 
 #ifdef VERSION_02
@@ -131,13 +111,16 @@ enum colors {FG_BLACK = 30,
 #define SETFG_SEQ_END "m"
 #define SETFG_SEQ_BEGIN_L ""
 #define SETFG_SEQ_END_L ""
-int mt_setfgcolor(enum colors fg);
 
 #define SETBG_SEQ_BEGIN "\E["
 #define SETBG_SEQ_END "m"
 #define SETBG_SEQ_BEGIN_L ""
 #define SETBG_SEQ_END_L ""
-int mt_setbgcolor(enum colors bg);
+
 #endif
+
+int mt_setfgcolor(enum colors fg);
+
+int mt_setbgcolor(enum colors bg);
 
 #endif

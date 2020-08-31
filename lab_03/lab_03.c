@@ -15,7 +15,7 @@ int mt_clrscr(void) {
 int mt_gotoXY(int X, int Y) {
     #ifdef MOVEXY_BORDERS
     int sizeX, sizeY;
-    mt_getscreensize(&sizeX, &sizeY);
+    mt_getscreensize(&sizeY, &sizeX);
     if(X > sizeX || X <=0) return -1;
     if(Y > sizeY || Y <=0) return -1;
     #endif
@@ -35,9 +35,9 @@ int mt_gotoXY(int X, int Y) {
              need_length,\
              "%s%d%s%d%s",\
              MOVEXY_SEQ_BEGIN,\
-             X,\
-             MOVEXY_SEQ_MIDDLE,\
              Y,\
+             MOVEXY_SEQ_MIDDLE,\
+             X,\
              MOVEXY_SEQ_END);
     if(printf("%s", seq) < 0) {
         free(seq);
@@ -48,6 +48,7 @@ int mt_gotoXY(int X, int Y) {
 }
 
 int mt_getscreensize(int *rows, int *cols) {
+    if(NULL == rows || NULL == cols) return -1;
     struct winsize ws;
     //unsigned short ws_row;
     //unsigned short ws_col;
