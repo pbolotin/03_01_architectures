@@ -1,3 +1,11 @@
+#ifndef _LAB_02_
+
+#define _LAB_02_
+
+extern int sc_memory[];
+extern char flag_outbound;
+extern int flag_register;
+
 #define SC_MEMORY_SIZE 100
 
 #define FLAG_01 0x1
@@ -101,3 +109,5 @@ int dbg_print_flag_register();
 int dbg_print_command(int);
 
 int dbg_print_command_and_operand(int, int);
+
+#endif
