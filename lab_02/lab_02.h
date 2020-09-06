@@ -75,6 +75,7 @@ extern int flag_register;
 extern int sc_memory[SC_MEMORY_SIZE];
 extern char flag_outbound;
 extern int flag_register;
+extern int sc_errno;
 
 /* Initialize memory of Simple Computer by zeros */
 int sc_memoryInit();
@@ -98,6 +99,9 @@ int sc_regGet(int what_register, int *value);
 
 int sc_commandEncode(int command, int operand, int* value);
 
+#define EPLACE -1
+#define ECOMMANDBIT -2
+#define EWRONGCOMMAND -3
 int sc_commandDecode(int value, int* command, int* operand);
 
 /* my dbg */

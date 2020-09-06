@@ -4,6 +4,7 @@
 int sc_memory[SC_MEMORY_SIZE];
 char flag_outbound = 0;
 int flag_register;
+int sc_errno = 0;
 
 /* Initialize memory of Simple Computer by zeros */
 int sc_memoryInit() {
@@ -184,11 +185,16 @@ int sc_commandEncode(int command, int operand, int* value) {
 }
 
 int sc_commandDecode(int value, int* command, int* operand) {
-    if(command == NULL || operand == NULL) return -1;
+    if(command == NULL || operand == NULL) {
+        sc_errno = EPLACE;
+        return -1;
+    }
+    int need_return = 0;
     *command = 0x00000000;
     *operand = 0x00000000;
     if(0 == (value | IS_COMMAND)) {
-        return -1;
+        need_return = -1;
+        sc_errno = ECOMMANDBIT;
     }
     /* check command */
     switch((value & MASK_OF_COMMAND)>>7) {
@@ -244,11 +250,12 @@ int sc_commandDecode(int value, int* command, int* operand) {
         *command = value & MASK_OF_COMMAND;
     break;
     default:
-        return -1;
+        need_return = -1;
+        sc_errno = EWRONGCOMMAND;
     }
     /* get operand */
     *operand = value & MASK_OF_OPERAND;
-    return 0;
+    return need_return;
 }
 
 /* ****************** */
