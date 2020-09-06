@@ -13,13 +13,16 @@ int finalize(void) {
     return 0;
 }
 
-int output_memory(void) {
+int output_memory(int rowY, int colX) {
     int i;
     int memValue = 0;
     int decCommand = 0;
     int decOperand = 0;
     int ret = 0;
     char show[6] = {0,0,0,0,0,0};
+    int current_row = 0;
+    //cursor_address=\E[%i%p1%d;%p2%dH
+    char cursormoveto[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     for(i = 0; i < SC_MEMORY_SIZE; i++) {
         sc_memoryGet(i, &memValue);
         ret = sc_commandDecode(memValue, &decCommand, &decOperand);
@@ -46,12 +49,14 @@ int output_memory(void) {
         } else {
             sprintf(show, "%c%04x", '+', decCommand + decOperand);
         }
-        printf(" %s", show);
-        if((i+1)%10 == 0) {
-            printf("\n");
+        if(i%10 == 0) {
+            //cursor_address=\E[%i%p1%d;%p2%dH
+            sprintf(cursormoveto, "\E[%d;%dH", rowY + current_row, colX);
+            printf("%s", cursormoveto);
+            current_row++;
         }
+        printf(" %s", show);
     }
-    //dbg_print_sc_memory();
     return 0;
 }
 
@@ -68,7 +73,7 @@ int main(void) {
     int value = 0;
     sc_commandEncode(OP_01_READ, 99, &value);
     sc_memorySet(10, value);
-    output_memory();
+    output_memory(2, 2);
     finalize();
     return 0;
 }
