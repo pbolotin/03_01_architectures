@@ -2,13 +2,9 @@
 
 #define _LAB_02_
 
-extern int sc_memory[];
-extern char flag_outbound;
-extern int flag_register;
-
 #define SC_MEMORY_SIZE 100
 
-#define FLAG_01 0x1
+#define FLAG_MEM_ADDR_ERROR 0x1
 #define FLAG_02 0x2
 #define FLAG_03 0x4
 #define FLAG_04 0x8
@@ -72,9 +68,11 @@ extern int flag_register;
 #define OP_12_ADDC 75
 #define OP_12_SUBC 76 //0x4C
 
-extern int sc_memory[SC_MEMORY_SIZE];
-extern char flag_outbound;
-extern int flag_register;
+extern unsigned int sc_memory[];
+extern unsigned int sc_reg_accumulator;//15 bit
+extern unsigned int sc_reg_command_counter;//7 bit
+extern unsigned int sc_reg_flags;//5 bit
+
 extern int sc_errno;
 
 /* Initialize memory of Simple Computer by zeros */

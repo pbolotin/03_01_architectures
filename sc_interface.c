@@ -60,7 +60,45 @@ int output_memory(int rowY, int colX) {
     return 0;
 }
 
-int output_registers(void) {
+int output_reg_accumulator(int rowY, int colX) {
+    int ret;
+    int decCommand, decOperand;
+    char show[6] = {0,0,0,0,0,0};
+    char cursormoveto[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    ret = sc_commandDecode(sc_reg_accumulator, &decCommand, &decOperand);
+    /*Error handling*/
+    if(ret < 0) {
+        switch(sc_errno) {
+            case EPLACE:
+                fprintf(stderr, "ouput_reg_accumulator sc_commandDecode\
+                           NULL as place where to put result?\n");
+                exit(EXIT_FAILURE);
+            break;
+            case ECOMMANDBIT:
+                //fprintf(stderr, "ouput_reg_accumulator sc_commandDecode\
+                                value not a command!\n");
+                sprintf(show, "%c%04x", ' ', sc_reg_accumulator);
+            break;
+            case EWRONGCOMMAND:
+                //fprintf(stderr, "ouput_reg_accumulator sc_commandDecode\
+                                unknown command!\n");
+                sprintf(show, "%c%04x", '+', decCommand + decOperand);
+            break;
+        }
+    /*If decode was ok*/
+    } else {
+        sprintf(show, "%c%04x", '+', decCommand + decOperand);
+    }
+
+    //cursor_address=\E[%i%p1%d;%p2%dH
+    sprintf(cursormoveto, "\E[%d;%dH", rowY, colX);
+    printf("%s", cursormoveto);
+    printf(" %s", show);
+    
+    return 0;
+}
+
+int output_register(void) {
     return 0;
 }
 
@@ -74,6 +112,7 @@ int main(void) {
     sc_commandEncode(OP_01_READ, 99, &value);
     sc_memorySet(10, value);
     output_memory(2, 2);
+    output_reg_accumulator(15, 2);
     finalize();
     return 0;
 }
