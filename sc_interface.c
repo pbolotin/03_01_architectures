@@ -60,7 +60,6 @@ int output_memory(int rowY, int colX) {
     return 0;
 }
 
-
 int output_reg_flags(int rowY, int colX) {
     char show[] = {' ',' ',' ',' ',' ',' ',' ',' ',' ',0};
     char cursormoveto[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -130,7 +129,25 @@ int output_reg_accumulator(int rowY, int colX) {
     return 0;
 }
 
-int output_keys_meaning(void) {
+int output_keys_meaning(int rowY, int colX) {
+    char *show[] = {
+        "l  - load",
+        "s  - save",
+        "r  - run",
+        "t  - step",
+        "i  - reset",
+        "F5 - accumulator",
+        "F6 - instructionCounter"
+    };
+    char cursormoveto[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    
+    int i;
+    for(i = 0; i < 7; i++) {
+        //cursor_address=\E[%i%p1%d;%p2%dH
+        sprintf(cursormoveto, "\E[%d;%dH", rowY + i, colX);
+        printf("%s", cursormoveto);
+        printf("%s", show[i]);
+    }
     return 0;
 }
 
@@ -139,13 +156,6 @@ int main(void) {
     int value = 0;
     sc_commandEncode(OP_01_READ, 99, &value);
     sc_memorySet(10, value);
-/*
-FLAG_OPERATION_OVERFLOW
-FLAG_ZERO_DIVIDITION
-FLAG_MEM_ADDR_ERROR
-FLAG_IGNORE_IMPULESES
-FLAG_WRONG_COMMAND
-*/
     sc_regSet(FLAG_OPERATION_OVERFLOW, 1);
     sc_regSet(FLAG_ZERO_DIVIDITION, 1);
     sc_regSet(FLAG_MEM_ADDR_ERROR, 1);
@@ -155,6 +165,7 @@ FLAG_WRONG_COMMAND
     output_reg_command_counter(5, 70);
     output_reg_accumulator(2, 70);
     output_memory(2, 2);
+    output_keys_meaning(14, 49);
     printf("\n");
     finalize();
     return 0;
