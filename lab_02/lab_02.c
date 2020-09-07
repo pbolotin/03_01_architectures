@@ -75,11 +75,11 @@ int sc_regInit(void) {
 }
 
 int is_register_number(int reg_number) {
-    if (reg_number == FLAG_MEM_ADDR_ERROR || 
-        reg_number == FLAG_02 ||
-        reg_number == FLAG_03 ||
-        reg_number == FLAG_04 ||
-        reg_number == FLAG_05
+    if (reg_number == FLAG_OPERATION_OVERFLOW || 
+        reg_number == FLAG_ZERO_DIVIDITION ||
+        reg_number == FLAG_MEM_ADDR_ERROR ||
+        reg_number == FLAG_IGNORE_IMPULESES ||
+        reg_number == FLAG_WRONG_COMMAND
     ) return 1;
     else return 0;
 }

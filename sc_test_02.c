@@ -19,15 +19,23 @@ int main() {
     dbg_print_sc_memory();
     
     sc_regInit();
+    
     dbg_print_flag_register();
-    sc_regSet(FLAG_04, 1);
-    sc_regSet(FLAG_03, 1);
-    sc_regSet(FLAG_02, 1);
-    sc_regSet(FLAG_03, 0);
+/*
+FLAG_OPERATION_OVERFLOW
+FLAG_ZERO_DIVIDITION
+FLAG_MEM_ADDR_ERROR
+FLAG_IGNORE_IMPULESES
+FLAG_WRONG_COMMAND
+*/
+    sc_regSet(FLAG_IGNORE_IMPULESES, 1);
+    sc_regSet(FLAG_MEM_ADDR_ERROR, 1);
+    sc_regSet(FLAG_ZERO_DIVIDITION, 1);
+    sc_regSet(FLAG_MEM_ADDR_ERROR, 0);
     dbg_print_flag_register();
     
     int from_flag_register = 0;
-    int return_code = sc_regGet(FLAG_02, &from_flag_register);
+    int return_code = sc_regGet(FLAG_ZERO_DIVIDITION, &from_flag_register);
     printf("return code of sc_regGet:%d\n", return_code);
     printf("from flag_register:%d\n", from_flag_register);
     

@@ -4,15 +4,11 @@
 
 #define SC_MEMORY_SIZE 100
 
-#define FLAG_MEM_ADDR_ERROR 0x1
-#define FLAG_02 0x2
-#define FLAG_03 0x4
-#define FLAG_04 0x8
-#define FLAG_05 0x10
-#define FLAG_06 0x20
-#define FLAG_07 0x40
-#define FLAG_08 0x80
-#define FLAG_09 0x100
+#define FLAG_OPERATION_OVERFLOW 0x1//Operation overflow 
+#define FLAG_ZERO_DIVIDITION 0x2//Zero dividition 0
+#define FLAG_MEM_ADDR_ERROR 0x4//Wrong memory address E
+#define FLAG_IGNORE_IMPULESES 0x8//Ignore tic impulses V
+#define FLAG_WRONG_COMMAND 0x10//Wrong command M
 
 #define IS_COMMAND 0x4000
 #define MASK_OF_COMMAND 0x3f80
