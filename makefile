@@ -7,7 +7,7 @@ LIB_03_PATH := -L./lab_03
 LIB_03 := -llab_03
 LIB_MYTERM_03 := -lmyTerm
 
-all: sc_interface mt_test_03 sc_test_02
+all: sc_interface_03 mt_test_03 sc_test_02
 
 sc_test_02 : sc_test_02.o ./lab_02/*.c ./lab_02/*.h
 		make -C lab_02
@@ -26,17 +26,17 @@ mt_test_03.o : mt_test_03.c
 		make -C lab_03
 		gcc -c mt_test_03.c -o mt_test_03.o
 
-sc_interface: sc_interface.o ./lab_03/*.c ./lab_03/*.h ./lab_02/*.c ./lab_02/*.h
+sc_interface_03: sc_interface_03.o ./lab_03/*.c ./lab_03/*.h ./lab_02/*.c ./lab_02/*.h
 		make -C lab_02
 		make -C lab_03
-		gcc sc_interface.o $(LIB_02_PATH) $(LIB_02) $(LIB_03_PATH) $(LIB_MYTERM_03) -o sc_interface
+		gcc sc_interface_03.o $(LIB_02_PATH) $(LIB_02) $(LIB_03_PATH) $(LIB_MYTERM_03) -o sc_interface_03
 
-sc_interface.o: sc_interface.c
+sc_interface.o: sc_interface_03.c
 		make -C lab_02
 		make -C lab_03
-		gcc -c sc_interface.c -o sc_interface.o
+		gcc -c sc_interface_03.c -o sc_interface_03.o
 
 clean:
 		make clean -C lab_02
 		make clean -C lab_03
-		rm -f *.o sc_test_02 mt_test_03 sc_interface
+		rm -f *.o sc_test_02 mt_test_03 sc_interface_03
