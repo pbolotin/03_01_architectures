@@ -13,8 +13,8 @@ int bc_box(int x1, int y1, int x2, int y2);
 //8x8 big symbol, 
 //x y left up corner,
 //x row, y col, color foreground, color background
-//output bits of int array
-int bc_printbigchar(int *arr, int x, int y, enum colors, enum colors);
+//output bits of big array
+int bc_printbigchar(int *big, int x, int y, enum colors, enum colors);
 
 //set value of the "symbolplace" of the big symbol in row x and col y
 int bc_setbigcharpos(int *big, int x, int y, int value);
