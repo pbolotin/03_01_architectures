@@ -1,9 +1,16 @@
-.PHONY = clean all
+.PHONY : all clean
 
-all: lab_04
+all : liblab_04.a libmyBigChars.a
 
-lab_04: lab_04.c lab_04.h
-	gcc lab_04.c -o lab_04
+libmyBigChars.a : liblab_04.a lab_04.h
+		cp liblab_04.a libmyBigChars.a
+		cp lab_04.h myBigChars.h
 
-clean:
-	rm -f lab_04 *.out
+liblab_04.a : lab_04.o
+		ar -rcDsv liblab_04.a lab_04.o
+
+lab_04.o : lab_04.c lab_04.h
+		gcc -c lab_04.c -o lab_04.o
+
+clean :
+		rm -f *.o *.a

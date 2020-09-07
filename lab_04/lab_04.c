@@ -2,10 +2,6 @@
 #include <unistd.h>
 #include "lab_04.h"
 
-int main() {
-    return 0;
-}
-
 //alt charset str output
 int bc_printA(char *str) {
     return 0;
