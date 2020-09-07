@@ -39,4 +39,5 @@ sc_interface.o: sc_interface_03.c
 clean:
 		make clean -C lab_02
 		make clean -C lab_03
+		make clean -C lab_04
 		rm -f *.o sc_test_02 mt_test_03 sc_interface_03
