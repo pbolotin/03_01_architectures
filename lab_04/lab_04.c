@@ -5,9 +5,7 @@
 //alt charset str output
 int bc_printA(char *str) {
     if(str == NULL) return -1;
-    printf("%s", ALT_CHARSET_ON);
-    printf("%s", str);
-    printf("%s", ALT_CHARSET_OFF);
+    printf("%s%s%s", ALT_CHARSET_ON, str, ALT_CHARSET_OFF);
     return 0;
 }
 
