@@ -4,6 +4,10 @@
 
 #include "../lab_03/lab_03.h"
 
+#define MAX_STR_LENGTH 4096
+#define ALT_CHARSET_ON  "\E(0"
+#define ALT_CHARSET_OFF "\E(B"
+
 //alt charset str output
 int bc_printA(char *str);
 
