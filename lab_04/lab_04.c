@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <netinet/in.h>
 #include "lab_04.h"
 #include "../lab_03/lab_03.h"
 
@@ -49,13 +50,13 @@ const char* bigchar_3[8] = {
 
 const char* bigchar_4[8] = {
     "        ",
-    "  a   aa",
-    "  a   aa",
-    "  a   aa",
-    "   aaaaa",
-    "      aa",
-    "      aa",
-    "      aa"
+    " aa  aa ",
+    " aa  aa ",
+    " aa  aa ",
+    " aaaaaaa",
+    "     aa ",
+    "     aa ",
+    "     aa "
 };
 
 const char* bigchar_5[8] = {
@@ -73,10 +74,10 @@ const char* bigchar_6[8] = {
     "        ",
     "  aaaaa ",
     " a    aa",
-    " a      ",
+    " aa     ",
     " aaaaaa ",
-    " aa   aa",
-    " a     a",
+    " a    aa",
+    " aa    a",
     "  aaaaa "
 };
 
@@ -177,7 +178,9 @@ int bc_printbigchar(int arr[2], int x, int y, enum colors f, enum colors b) {
     mt_setfgcolor(f);
     mt_setbgcolor(b);
     printf("%s", ALT_CHARSET_ON);
-    bigcharmatrix* bcm = (bigcharmatrix*)arr;
+    bigcharmatrix temp_bcm;
+    bigcharmatrix *bcm = &temp_bcm;
+    _bc_bigcharmatrix_from_int_order(arr, bcm);
     /*Goto*/
     mt_gotoXY(x, y);
     printf("%c", bcm->b0_0 == 1? 'a': ' ');
@@ -524,44 +527,59 @@ int _bc_setbigcharmatrix_from_strmatrix(const char** str, bigcharmatrix* bcm) {
     return 0;
 }
 
-int _bc_getbigcharmatrix_as_int_array_by_number(int number, int bcm[2]) {
+int _bc_int_order_from_bigcharmatrix(const bigcharmatrix* bcm, int int_order_bcm[2]) {
+    int_order_bcm[0] = ntohl((uint32_t)((int*)bcm)[0]);
+    int_order_bcm[1] = ntohl((uint32_t)((int*)bcm)[1]);
+    return 0;
+}
+
+int _bc_bigcharmatrix_from_int_order(const int int_order_bcm[2], bigcharmatrix* bcm) {
+    ((uint32_t*)bcm)[0] = htonl(int_order_bcm[0]);
+    ((uint32_t*)bcm)[1] = htonl(int_order_bcm[1]);
+    return 0;
+}
+
+int _bc_getbigcharmatrix_as_int_array_by_number(int number, int int_order_bcm[2]) {
     if(number < 0 || number > 9) return -1;
-    if(bcm == NULL) return -1;
+    if(int_order_bcm == NULL) return -1;
+    bigcharmatrix bcm;
     switch(number) {
         case 0:
-            _bc_setbigcharmatrix_from_strmatrix(bigchar_0, (bigcharmatrix*)bcm);
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_0, &bcm);
         break;
         case 1:
-            _bc_setbigcharmatrix_from_strmatrix(bigchar_1, (bigcharmatrix*)bcm);
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_1, &bcm);
         break;
         case 2:
-            _bc_setbigcharmatrix_from_strmatrix(bigchar_2, (bigcharmatrix*)bcm);
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_2, &bcm);
         break;
         case 3:
-            _bc_setbigcharmatrix_from_strmatrix(bigchar_3, (bigcharmatrix*)bcm);
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_3, &bcm);
         break;
         case 4:
-            _bc_setbigcharmatrix_from_strmatrix(bigchar_4, (bigcharmatrix*)bcm);
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_4, &bcm);
         break;
         case 5:
-            _bc_setbigcharmatrix_from_strmatrix(bigchar_5, (bigcharmatrix*)bcm);
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_5, &bcm);
         break;
         case 6:
-            _bc_setbigcharmatrix_from_strmatrix(bigchar_6, (bigcharmatrix*)bcm);
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_6, &bcm);
         break;
         case 7:
-            _bc_setbigcharmatrix_from_strmatrix(bigchar_7, (bigcharmatrix*)bcm);
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_7, &bcm);
         break;
         case 8:
-            _bc_setbigcharmatrix_from_strmatrix(bigchar_8, (bigcharmatrix*)bcm);
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_8, &bcm);
         break;
         case 9:
-            _bc_setbigcharmatrix_from_strmatrix(bigchar_9, (bigcharmatrix*)bcm);
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_9, &bcm);
         break;
     }
+    _bc_int_order_from_bigcharmatrix(&bcm, int_order_bcm);
+    //unsigned int * direct_convert = (unsigned int*)&bcm;
+    //printf("n %08x %08x\n", direct_convert[0], direct_convert[1]);
+    //printf("h %08x %08x\n", (unsigned int)int_order_bcm[0], (unsigned int)int_order_bcm[1]);
     return 0;
 }
 
 //all return 0 if success or -1 if failed
-
-

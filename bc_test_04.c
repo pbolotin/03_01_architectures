@@ -32,7 +32,7 @@ int main() {
     _bc_getbigcharmatrix_as_int_array_by_number(8, bigchar);
     bc_printbigchar(bigchar, 1, 64+1, FG_YELLOW, BG_WHITE);
     _bc_getbigcharmatrix_as_int_array_by_number(9, bigchar);
-    bc_printbigchar(bigchar, 1, 72+1, FG_RED, BG_BLACK);
+    bc_printbigchar(bigchar, 1, 72+1, FG_BLACK, BG_WHITE);
     //bc_bigcharread
     //bc_bigcharwrite
     //bc_getbigcharpos

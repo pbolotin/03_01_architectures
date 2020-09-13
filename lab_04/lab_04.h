@@ -98,7 +98,9 @@ typedef struct bigcharmatrix {
 
 int _bc_setbigcharmatrix_from_strmatrix(const char** str, bigcharmatrix* bcm);
 
-int _bc_getbigcharmatrix_as_int_array_by_number(int number, int bcm[2]);
+int _bc_getbigcharmatrix_as_int_array_by_number(int number, int int_order_bcm[2]);
+
+int _bc_bigcharmatrix_from_int_order(const int int_order_bcm[2], bigcharmatrix* bcm);
 
 //alt charset str output
 int bc_printA(char *str);
@@ -106,7 +108,7 @@ int bc_printA(char *str);
 //x1 row, y1 col, x2 row_high, y2 col_width
 int bc_box(int x1, int y1, int x2, int y2);
 
-//8x8 big symbol, 
+//8x8 big symbol,
 //x y left up corner,
 //x row, y col, color foreground, color background
 //output bits of big array
