@@ -8,6 +8,98 @@
 #define ALT_CHARSET_ON  "\E(0"
 #define ALT_CHARSET_OFF "\E(B"
 
+/*Matrixes of numbrs*/
+extern const char* bigchar_0[8];
+extern const char* bigchar_1[8];
+extern const char* bigchar_2[8];
+extern const char* bigchar_3[8];
+extern const char* bigchar_4[8];
+extern const char* bigchar_5[8];
+extern const char* bigchar_6[8];
+extern const char* bigchar_7[8];
+extern const char* bigchar_8[8];
+extern const char* bigchar_9[8];
+
+/*Bit fields for bigchar representation*/
+typedef struct bigcharmatrix {
+    /*First byte*/
+    unsigned int b0_0 : 1;
+    unsigned int b0_1 : 1;
+    unsigned int b0_2 : 1;
+    unsigned int b0_3 : 1;
+    unsigned int b0_4 : 1;
+    unsigned int b0_5 : 1;
+    unsigned int b0_6 : 1;
+    unsigned int b0_7 : 1;
+    /*Next byte*/
+    unsigned int b1_0 : 1;
+    unsigned int b1_1 : 1;
+    unsigned int b1_2 : 1;
+    unsigned int b1_3 : 1;
+    unsigned int b1_4 : 1;
+    unsigned int b1_5 : 1;
+    unsigned int b1_6 : 1;
+    unsigned int b1_7 : 1;
+    /*Next byte*/
+    unsigned int b2_0 : 1;
+    unsigned int b2_1 : 1;
+    unsigned int b2_2 : 1;
+    unsigned int b2_3 : 1;
+    unsigned int b2_4 : 1;
+    unsigned int b2_5 : 1;
+    unsigned int b2_6 : 1;
+    unsigned int b2_7 : 1;
+    /*Next byte*/
+    unsigned int b3_0 : 1;
+    unsigned int b3_1 : 1;
+    unsigned int b3_2 : 1;
+    unsigned int b3_3 : 1;
+    unsigned int b3_4 : 1;
+    unsigned int b3_5 : 1;
+    unsigned int b3_6 : 1;
+    unsigned int b3_7 : 1;
+    /*Next byte*/
+    unsigned int b4_0 : 1;
+    unsigned int b4_1 : 1;
+    unsigned int b4_2 : 1;
+    unsigned int b4_3 : 1;
+    unsigned int b4_4 : 1;
+    unsigned int b4_5 : 1;
+    unsigned int b4_6 : 1;
+    unsigned int b4_7 : 1;
+    /*Next byte*/
+    unsigned int b5_0 : 1;
+    unsigned int b5_1 : 1;
+    unsigned int b5_2 : 1;
+    unsigned int b5_3 : 1;
+    unsigned int b5_4 : 1;
+    unsigned int b5_5 : 1;
+    unsigned int b5_6 : 1;
+    unsigned int b5_7 : 1;
+    /*Next byte*/
+    unsigned int b6_0 : 1;
+    unsigned int b6_1 : 1;
+    unsigned int b6_2 : 1;
+    unsigned int b6_3 : 1;
+    unsigned int b6_4 : 1;
+    unsigned int b6_5 : 1;
+    unsigned int b6_6 : 1;
+    unsigned int b6_7 : 1;
+    /*Next byte*/
+    unsigned int b7_0 : 1;
+    unsigned int b7_1 : 1;
+    unsigned int b7_2 : 1;
+    unsigned int b7_3 : 1;
+    unsigned int b7_4 : 1;
+    unsigned int b7_5 : 1;
+    unsigned int b7_6 : 1;
+    unsigned int b7_7 : 1;
+} bigcharmatrix;
+
+int _bc_setbigcharmatrix_from_strmatrix(const char** str, bigcharmatrix* bcm);
+
+int _bc_getbigcharmatrix_as_int_array_by_number(int number, int bcm[2]);
+
 //alt charset str output
 int bc_printA(char *str);
 
