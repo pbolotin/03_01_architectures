@@ -12,12 +12,12 @@ int mt_clrscr(void) {
     return 0;
 }
 
-int mt_gotoXY(int X, int Y) {
+int mt_gotoXY(int rowX, int colY) {
     #ifdef MOVEXY_BORDERS
-    int sizeX, sizeY;
-    mt_getscreensize(&sizeY, &sizeX);
-    if(X > sizeX || X <=0) return -1;
-    if(Y > sizeY || Y <=0) return -1;
+    int sizeColY, sizeRowX;
+    mt_getscreensize(&sizeRowX, &sizeColY);
+    if(colY > sizeColY || colY <=0) return -1;
+    if(rowX > sizeRowX || rowX <=0) return -1;
     #endif
     
     int need_length = 0;
@@ -35,9 +35,9 @@ int mt_gotoXY(int X, int Y) {
              need_length,\
              "%s%d%s%d%s",\
              MOVEXY_SEQ_BEGIN,\
-             Y,\
+             rowX,\
              MOVEXY_SEQ_MIDDLE,\
-             X,\
+             colY,\
              MOVEXY_SEQ_END);
     if(printf("%s", seq) < 0) {
         free(seq);

@@ -13,7 +13,7 @@ int mt_clrscr(void);
 #define MOVEXY_SEQ_MIDDLE ";"
 #define MOVEXY_SEQ_END "H"
 #define INT_MAX_LENGTH 20
-int mt_gotoXY(int X, int Y);
+int mt_gotoXY(int rowX, int colY);
 
 int mt_getscreensize(int *rows, int *cols);
 
