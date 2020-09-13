@@ -4,113 +4,113 @@
 #include "../lab_03/lab_03.h"
 
 const char* bigchar_0[8] = {
-    "  aaaa  ",
-    " a    a ",
-    "a    a a",
-    "a   a  a",
-    "a  a   a",
-    "a a    a",
-    " a    a ",
-    "  aaaa  "
+    "        ",
+    "  aaaaa ",
+    " a    aa",
+    " a   a a",
+    " a  a  a",
+    " a a   a",
+    " aa    a",
+    "  aaaaa "
 };
 
 const char* bigchar_1[8] = {
     "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        "
+    "    aa  ",
+    "   a a  ",
+    "  a  a  ",
+    "     a  ",
+    "     a  ",
+    "     a  ",
+    "  aaaaaa"
 };
 
 const char* bigchar_2[8] = {
     "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        "
+    "  aaaaa ",
+    " aa    a",
+    "      a ",
+    "     a  ",
+    "   a    ",
+    "  aa   a",
+    " aaaaaaa"
 };
 
 const char* bigchar_3[8] = {
     "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        "
+    "  aaaa  ",
+    " aa   aa",
+    "      a ",
+    "    aa  ",
+    "      aa",
+    " aa    a",
+    "  aaaaa "
 };
 
 const char* bigchar_4[8] = {
     "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        "
+    "  a   aa",
+    "  a   aa",
+    "  a   aa",
+    "   aaaaa",
+    "      aa",
+    "      aa",
+    "      aa"
 };
 
 const char* bigchar_5[8] = {
     "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        "
+    "  aaaaaa",
+    " a      ",
+    " a aaaa ",
+    " aa   aa",
+    "       a",
+    " aa   aa",
+    "   aaa  "
 };
 
 const char* bigchar_6[8] = {
     "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        "
+    "  aaaaa ",
+    " a    aa",
+    " a      ",
+    " aaaaaa ",
+    " aa   aa",
+    " a     a",
+    "  aaaaa "
 };
 
 const char* bigchar_7[8] = {
     "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        "
+    " aaaaaaa",
+    "      a ",
+    "     a  ",
+    "  aaaaa ",
+    "   aa   ",
+    "   a    ",
+    "  aa    "
 };
 
 const char* bigchar_8[8] = {
     "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        "
+    "  aaaaa ",
+    " a     a",
+    "  a   a ",
+    "  aaaaa ",
+    " a     a",
+    " aa   aa",
+    "  aaaaa "
 };
 
 const char* bigchar_9[8] = {
     "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        "
+    "  aaaaa ",
+    " a     a",
+    " a    aa",
+    "  aaaaaa",
+    "       a",
+    " aa   aa",
+    "  aaaaa "
 };
 
 //alt charset str output
@@ -176,6 +176,7 @@ int bc_printbigchar(int arr[2], int x, int y, enum colors f, enum colors b) {
     /*Output*/
     mt_setfgcolor(f);
     mt_setbgcolor(b);
+    printf("%s", ALT_CHARSET_ON);
     bigcharmatrix* bcm = (bigcharmatrix*)arr;
     /*Goto*/
     mt_gotoXY(x, y);
@@ -257,6 +258,7 @@ int bc_printbigchar(int arr[2], int x, int y, enum colors f, enum colors b) {
     printf("%c", bcm->b7_5 == 1? 'a': ' ');
     printf("%c", bcm->b7_6 == 1? 'a': ' ');
     printf("%c", bcm->b7_7 == 1? 'a': ' ');
+    printf("%s", ALT_CHARSET_OFF);
     return 0;
 }
 
