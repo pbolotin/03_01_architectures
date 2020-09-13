@@ -24,71 +24,72 @@ int test_mt_clrscr(void) {
 int test_mt_gotoXY(void) {
     srand(time(NULL));
     printf("test mt_gotoXY:\n");
-    int sizeX, sizeY;
-    if(0 > mt_getscreensize(&sizeY, &sizeX)) {
+    int rowX, colY;
+    if(0 > mt_getscreensize(&rowX, &colY)) {
         perror("Error in mt_getscreensize\n");
         exit(EXIT_FAILURE);
     }
-    printf("Now terminal has %d rows and %d cols\n", sizeY, sizeX);
+    printf("Now terminal has %d rows and %d cols\n", rowX, colY);
     printf("Any error will be printed into stderr stream\n");
-    printf("Put %d symbols in here:\n", sizeX);
+    printf("Put %d symbols in here:\n", colY);
     int i;
     int check;
-    int x, y;
-    for(i = 1; i <= sizeX; i++) {
-        x = i; y = rand()%sizeY + 1;
+    int row, col;
+    for(i = 1; i <= colY; i++) {
+        col = i; row = rand()%rowX + 1;
         //printf("Try goto %d %d\n", x, y);
-        check = mt_gotoXY(x, y);
+        check = mt_gotoXY(row, col);
         if(check < 0) {
-            fprintf(stderr, "Error in mt_gotoXY X=%d Y=%d\n", x, y);
+            fprintf(stderr, "Error in mt_gotoXY rowX=%d colY=%d\n", row, col);
             sleep(10);
             break;
         }
         printf("%d", i%10);
         check = mt_gotoXY(1, 1);
         if(check < 0) {
-            fprintf(stderr, "Error in mt_gotoXY X=%d Y=%d\n", 1, 1);
+            fprintf(stderr, "Error in mt_gotoXY rowX=%d colY=%d\n", 1, 1);
             sleep(10);
             break;
         }
         printf("\n");
     }
-    check = mt_gotoXY(1, 4);
+    check = mt_gotoXY(4, 1);
     if(check < 0) {
-        fprintf(stderr, "Error in mt_gotoXY X=%d Y=%d\n", x, y);
+        fprintf(stderr, "Error in mt_gotoXY rowX=%d colY=%d\n", 4, 1);
+        sleep(10);
     }
-    printf("Now test incorrect values of x, y\n");
+    printf("Now test incorrect values of rowX, colY\n");
     
-    x = 0; y = 1;
-    printf("x=%d y=%d\n", x, y);
+    row = 0; col = 1;
+    printf("row=%d col=%d\n", row, col);
     sleep(2);
-    check = mt_gotoXY(x, y);
+    check = mt_gotoXY(row, col);
     if(check < 0) {
-        fprintf(stderr, "Error in mt_gotoXY X=%d Y=%d\n", x, y);
-    }
-    
-    x = 1; y = 0;
-    printf("x=%d y=%d\n", x, y);
-    sleep(2);
-    check = mt_gotoXY(x, y);
-    if(check < 0) {
-        fprintf(stderr, "Error in mt_gotoXY X=%d Y=%d\n", x, y);
+        fprintf(stderr, "Error in mt_gotoXY rowX=%d colY=%d\n", row, col);
     }
     
-    x = sizeX + 1; y = 1;
-    printf("x=%d y=%d\n", x, y);
+    row = 1; col = 0;
+    printf("row=%d col=%d\n", row, col);
     sleep(2);
-    check = mt_gotoXY(x, y);
+    check = mt_gotoXY(row, col);
     if(check < 0) {
-        fprintf(stderr, "Error in mt_gotoXY X=%d Y=%d\n", x, y);
+        fprintf(stderr, "Error in mt_gotoXY rowX=%d colY=%d\n", row, col);
     }
     
-    x = 1; y = sizeY + 1;
-    printf("x=%d y=%d\n", x, y);
+    row = rowX + 1; col = 1;
+    printf("row=%d col=%d\n", row, col);
     sleep(2);
-    check = mt_gotoXY(x, y);
+    check = mt_gotoXY(row, col);
     if(check < 0) {
-        fprintf(stderr, "Error in mt_gotoXY X=%d Y=%d\n", x, y);
+        fprintf(stderr, "Error in mt_gotoXY rowX=%d colY=%d\n", row, col);
+    }
+    
+    row = 1; col = colY + 1;
+    printf("row=%d col=%d\n", row, col);
+    sleep(2);
+    check = mt_gotoXY(row, col);
+    if(check < 0) {
+        fprintf(stderr, "Error in mt_gotoXY rowX=%d colY=%d\n", row, col);
     }
     return 0;
 }
