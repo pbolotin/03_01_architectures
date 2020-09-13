@@ -34,7 +34,7 @@ bc_test_04: bc_test_04.o ./lab_04/*.c ./lab_04/*.h ./lab_03/*.c ./lab_03/*.h
 		make -C lab_03
 		make -C lab_04
 #		gcc $(LIB_04_PATH) bc_test_04.o -o bc_test_04 $(LIB_04)
-		gcc $(LIB_04_PATH) bc_test_04.o -o bc_test_04 $(LIB_MYBIGCHARS_04)
+		gcc $(LIB_04_PATH) $(LIB_03_PATH) bc_test_04.o -o bc_test_04 $(LIB_MYBIGCHARS_04) $(LIB_MYTERM_03)
 
 bc_test_04.o : bc_test_04.c
 		make -C lab_03
