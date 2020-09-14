@@ -102,6 +102,8 @@ int _bc_getbigcharmatrix_as_int_array_by_number(int number, int int_order_bcm[2]
 
 int _bc_bigcharmatrix_from_int_order(const int int_order_bcm[2], bigcharmatrix* bcm);
 
+int _bc_int_order_from_bigcharmatrix(const bigcharmatrix* bcm, int int_order_bcm[2]);
+
 //alt charset str output
 int bc_printA(char *str);
 

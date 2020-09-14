@@ -267,13 +267,474 @@ int bc_printbigchar(int arr[2], int x, int y, enum colors f, enum colors b) {
 
 //set value of the "symbolplace" of the big symbol in row x and col y
 int bc_setbigcharpos(int *big, int x, int y, int value) {
-    printf("bc_setbigcharpos test\n");
+    //printf("bc_setbigcharpos test\n");
+    if(big == NULL || (x < 0 || x > 7) || (y < 0 || y > 7)) return -1;
+    bigcharmatrix temp_bcm;
+    bigcharmatrix *bcm = &temp_bcm;
+    _bc_bigcharmatrix_from_int_order(big, bcm);
+    switch(x) {
+        case 0:
+        switch(y) {
+            case 0:
+                bcm->b0_0 = value == 0?0:1;
+            break;
+            case 1:
+                bcm->b0_1 = value == 0?0:1;
+            break;
+            case 2:
+                bcm->b0_2 = value == 0?0:1;
+            break;
+            case 3:
+                bcm->b0_3 = value == 0?0:1;
+            break;
+            case 4:
+                bcm->b0_4 = value == 0?0:1;
+            break;
+            case 5:
+                bcm->b0_5 = value == 0?0:1;
+            break;
+            case 6:
+                bcm->b0_6 = value == 0?0:1;
+            break;
+            case 7:
+                bcm->b0_7 = value == 0?0:1;
+            break;
+        }
+        break;
+        case 1:
+        switch(y) {
+            case 0:
+                bcm->b1_0 = value == 0?0:1;
+            break;
+            case 1:
+                bcm->b1_1 = value == 0?0:1;
+            break;
+            case 2:
+                bcm->b1_2 = value == 0?0:1;
+            break;
+            case 3:
+                bcm->b1_3 = value == 0?0:1;
+            break;
+            case 4:
+                bcm->b1_4 = value == 0?0:1;
+            break;
+            case 5:
+                bcm->b1_5 = value == 0?0:1;
+            break;
+            case 6:
+                bcm->b1_6 = value == 0?0:1;
+            break;
+            case 7:
+                bcm->b1_7 = value == 0?0:1;
+            break;
+        }
+        break;
+        case 2:
+        switch(y) {
+            case 0:
+                bcm->b2_0 = value == 0?0:1;
+            break;
+            case 1:
+                bcm->b2_1 = value == 0?0:1;
+            break;
+            case 2:
+                bcm->b2_2 = value == 0?0:1;
+            break;
+            case 3:
+                bcm->b2_3 = value == 0?0:1;
+            break;
+            case 4:
+                bcm->b2_4 = value == 0?0:1;
+            break;
+            case 5:
+                bcm->b2_5 = value == 0?0:1;
+            break;
+            case 6:
+                bcm->b2_6 = value == 0?0:1;
+            break;
+            case 7:
+                bcm->b2_7 = value == 0?0:1;
+            break;
+        }
+        break;
+        case 3:
+        switch(y) {
+            case 0:
+                bcm->b3_0 = value == 0?0:1;
+            break;
+            case 1:
+                bcm->b3_1 = value == 0?0:1;
+            break;
+            case 2:
+                bcm->b3_2 = value == 0?0:1;
+            break;
+            case 3:
+                bcm->b3_3 = value == 0?0:1;
+            break;
+            case 4:
+                bcm->b3_4 = value == 0?0:1;
+            break;
+            case 5:
+                bcm->b3_5 = value == 0?0:1;
+            break;
+            case 6:
+                bcm->b3_6 = value == 0?0:1;
+            break;
+            case 7:
+                bcm->b3_7 = value == 0?0:1;
+            break;
+        }
+        break;
+        case 4:
+        switch(y) {
+            case 0:
+                bcm->b4_0 = value == 0?0:1;
+            break;
+            case 1:
+                bcm->b4_1 = value == 0?0:1;
+            break;
+            case 2:
+                bcm->b4_2 = value == 0?0:1;
+            break;
+            case 3:
+                bcm->b4_3 = value == 0?0:1;
+            break;
+            case 4:
+                bcm->b4_4 = value == 0?0:1;
+            break;
+            case 5:
+                bcm->b4_5 = value == 0?0:1;
+            break;
+            case 6:
+                bcm->b4_6 = value == 0?0:1;
+            break;
+            case 7:
+                bcm->b4_7 = value == 0?0:1;
+            break;
+        }
+        break;
+        case 5:
+        switch(y) {
+            case 0:
+                bcm->b5_0 = value == 0?0:1;
+            break;
+            case 1:
+                bcm->b5_1 = value == 0?0:1;
+            break;
+            case 2:
+                bcm->b5_2 = value == 0?0:1;
+            break;
+            case 3:
+                bcm->b5_3 = value == 0?0:1;
+            break;
+            case 4:
+                bcm->b5_4 = value == 0?0:1;
+            break;
+            case 5:
+                bcm->b5_5 = value == 0?0:1;
+            break;
+            case 6:
+                bcm->b5_6 = value == 0?0:1;
+            break;
+            case 7:
+                bcm->b5_7 = value == 0?0:1;
+            break;
+        }
+        break;
+        case 6:
+        switch(y) {
+            case 0:
+                bcm->b6_0 = value == 0?0:1;
+            break;
+            case 1:
+                bcm->b6_1 = value == 0?0:1;
+            break;
+            case 2:
+                bcm->b6_2 = value == 0?0:1;
+            break;
+            case 3:
+                bcm->b6_3 = value == 0?0:1;
+            break;
+            case 4:
+                bcm->b6_4 = value == 0?0:1;
+            break;
+            case 5:
+                bcm->b6_5 = value == 0?0:1;
+            break;
+            case 6:
+                bcm->b6_6 = value == 0?0:1;
+            break;
+            case 7:
+                bcm->b6_7 = value == 0?0:1;
+            break;
+        }
+        break;
+        case 7:
+        switch(y) {
+            case 0:
+                bcm->b7_0 = value == 0?0:1;
+            break;
+            case 1:
+                bcm->b7_1 = value == 0?0:1;
+            break;
+            case 2:
+                bcm->b7_2 = value == 0?0:1;
+            break;
+            case 3:
+                bcm->b7_3 = value == 0?0:1;
+            break;
+            case 4:
+                bcm->b7_4 = value == 0?0:1;
+            break;
+            case 5:
+                bcm->b7_5 = value == 0?0:1;
+            break;
+            case 6:
+                bcm->b7_6 = value == 0?0:1;
+            break;
+            case 7:
+                bcm->b7_7 = value == 0?0:1;
+            break;
+        }
+        break;
+    }
+    _bc_int_order_from_bigcharmatrix(bcm, big);
     return 0;
 }
 
 //get value of the "symbolplace" of the big symbol in row x and col y
 int bc_getbigcharpos(int *big, int x, int y, int *value) {
     printf("bc_getbigcharpos test\n");
+    if(big == NULL || value == NULL || (x < 0 || x > 7) || (y < 0 || y > 7)) return -1;
+    bigcharmatrix temp_bcm;
+    bigcharmatrix *bcm = &temp_bcm;
+    _bc_bigcharmatrix_from_int_order(big, bcm);
+    switch(x) {
+        case 0:
+        switch(y) {
+            case 0:
+                *value = bcm->b0_0;
+            break;
+            case 1:
+                *value = bcm->b0_1;
+            break;
+            case 2:
+                *value = bcm->b0_2;
+            break;
+            case 3:
+                *value = bcm->b0_3;
+            break;
+            case 4:
+                *value = bcm->b0_4;
+            break;
+            case 5:
+                *value = bcm->b0_5;
+            break;
+            case 6:
+                *value = bcm->b0_6;
+            break;
+            case 7:
+                *value = bcm->b0_7;
+            break;
+        }
+        break;
+        case 1:
+        switch(y) {
+            case 0:
+                *value = bcm->b1_0;
+            break;
+            case 1:
+                *value = bcm->b1_1;
+            break;
+            case 2:
+                *value = bcm->b1_2;
+            break;
+            case 3:
+                *value = bcm->b1_3;
+            break;
+            case 4:
+                *value = bcm->b1_4;
+            break;
+            case 5:
+                *value = bcm->b1_5;
+            break;
+            case 6:
+                *value = bcm->b1_6;
+            break;
+            case 7:
+                *value = bcm->b1_7;
+            break;
+        }
+        break;
+        case 2:
+        switch(y) {
+            case 0:
+                *value = bcm->b2_0;
+            break;
+            case 1:
+                *value = bcm->b2_1;
+            break;
+            case 2:
+                *value = bcm->b2_2;
+            break;
+            case 3:
+                *value = bcm->b2_3;
+            break;
+            case 4:
+                *value = bcm->b2_4;
+            break;
+            case 5:
+                *value = bcm->b2_5;
+            break;
+            case 6:
+                *value = bcm->b2_6;
+            break;
+            case 7:
+                *value = bcm->b2_7;
+            break;
+        }
+        break;
+        case 3:
+        switch(y) {
+            case 0:
+                *value = bcm->b3_0;
+            break;
+            case 1:
+                *value = bcm->b3_1;
+            break;
+            case 2:
+                *value = bcm->b3_2;
+            break;
+            case 3:
+                *value = bcm->b3_3;
+            break;
+            case 4:
+                *value = bcm->b3_4;
+            break;
+            case 5:
+                *value = bcm->b3_5;
+            break;
+            case 6:
+                *value = bcm->b3_6;
+            break;
+            case 7:
+                *value = bcm->b3_7;
+            break;
+        }
+        break;
+        case 4:
+        switch(y) {
+            case 0:
+                *value = bcm->b4_0;
+            break;
+            case 1:
+                *value = bcm->b4_1;
+            break;
+            case 2:
+                *value = bcm->b4_2;
+            break;
+            case 3:
+                *value = bcm->b4_3;
+            break;
+            case 4:
+                *value = bcm->b4_4;
+            break;
+            case 5:
+                *value = bcm->b4_5;
+            break;
+            case 6:
+                *value = bcm->b4_6;
+            break;
+            case 7:
+                *value = bcm->b4_7;
+            break;
+        }
+        break;
+        case 5:
+        switch(y) {
+            case 0:
+                *value = bcm->b5_0;
+            break;
+            case 1:
+                *value = bcm->b5_1;
+            break;
+            case 2:
+                *value = bcm->b5_2;
+            break;
+            case 3:
+                *value = bcm->b5_3;
+            break;
+            case 4:
+                *value = bcm->b5_4;
+            break;
+            case 5:
+                *value = bcm->b5_5;
+            break;
+            case 6:
+                *value = bcm->b5_6;
+            break;
+            case 7:
+                *value = bcm->b5_7;
+            break;
+        }
+        break;
+        case 6:
+        switch(y) {
+            case 0:
+                *value = bcm->b6_0;
+            break;
+            case 1:
+                *value = bcm->b6_1;
+            break;
+            case 2:
+                *value = bcm->b6_2;
+            break;
+            case 3:
+                *value = bcm->b6_3;
+            break;
+            case 4:
+                *value = bcm->b6_4;
+            break;
+            case 5:
+                *value = bcm->b6_5;
+            break;
+            case 6:
+                *value = bcm->b6_6;
+            break;
+            case 7:
+                *value = bcm->b6_7;
+            break;
+        }
+        break;
+        case 7:
+        switch(y) {
+            case 0:
+                *value = bcm->b7_0;
+            break;
+            case 1:
+                *value = bcm->b7_1;
+            break;
+            case 2:
+                *value = bcm->b7_2;
+            break;
+            case 3:
+                *value = bcm->b7_3;
+            break;
+            case 4:
+                *value = bcm->b7_4;
+            break;
+            case 5:
+                *value = bcm->b7_5;
+            break;
+            case 6:
+                *value = bcm->b7_6;
+            break;
+            case 7:
+                *value = bcm->b7_7;
+            break;
+        }
+        break;
+    }
     return 0;
 }
 
