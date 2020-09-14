@@ -58,14 +58,44 @@ int main() {
     //}
     //bc_printbigchar(bigchar, 1, 1, FG_WHITE, BG_BLACK);
     int big_digits[10*2];
-    int count = 10*2;
+    /*Fill big_digits by the digit-matrixes*/
+    _bc_getbigcharmatrix_as_int_array_by_number(0, &big_digits[0*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(1, &big_digits[1*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(2, &big_digits[2*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(3, &big_digits[3*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(4, &big_digits[4*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(5, &big_digits[5*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(6, &big_digits[6*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(7, &big_digits[7*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(8, &big_digits[8*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(9, &big_digits[9*2]);
+    int count = 10;
     int test_fd = open("big_digits.bin", O_CREAT|O_WRONLY, 0666);
     if(test_fd < 0) {
-        perror("open in main fail\n");
+        perror("open to write in main failed\n");
         exit(EXIT_FAILURE);
     }
     bc_bigcharwrite(test_fd, big_digits, count);
     close(test_fd);
+    
     //bc_bigcharread
+    int big_digits_read[10*2];
+    test_fd = open("big_digits.bin", O_RDONLY);
+    if(test_fd < 0) {
+        perror("open to read in main failed\n");
+        exit(EXIT_FAILURE);
+    }
+    int was_read;
+    int need_read = 10;
+    bc_bigcharread(test_fd, big_digits_read, need_read, &was_read);
+    close(test_fd);
+    
+    /*Test output*/
+    int i;
+    for(i = 0; i < 10; i++) {
+        bc_printbigchar(&big_digits_read[i*2], 1, 1, FG_WHITE, BG_BLUE);
+        sleep(2);
+    }
+    
     return 0;
 }

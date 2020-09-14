@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <netinet/in.h>
 #include "lab_04.h"
@@ -741,12 +742,46 @@ int bc_getbigcharpos(int *big, int x, int y, int *value) {
 //Save count of "big-symbols" in the file, format of the file is userdefined
 int bc_bigcharwrite(int fd, int* big, int count) {
     printf("bc_bigcharwrite test\n");
+    if(fd < 0 || big == NULL || count < 1) return -1;
+    int i;
+    int wr_ret;
+    bigcharmatrix bcm;
+    for(i = 0; i < count; i++) {
+        _bc_bigcharmatrix_from_int_order(&big[i*2], &bcm);
+        printf("write %d\n", i);
+        wr_ret = write(fd, &bcm, sizeof(bcm));
+        if(wr_ret < 0) {
+            perror("bc_bigcharwrite write call is failed\n");
+            exit(EXIT_FAILURE);
+        }
+    }
     return 0;
 }
 
 //Read count of "big-symbols" from the file, count for how many was read, or error
 int bc_bigcharread(int fd, int* big, int need_count, int *count) {
     printf("bc_bigcharread test\n");
+    if(fd < 0 || big == NULL || need_count < 1 || count == NULL) return -1;
+    int i;
+    bigcharmatrix bcm;
+    int ret_read;
+    int read_count = 0;
+    for(i = 0; i < need_count; i++) {
+        ret_read = read(fd, &bcm, sizeof(bigcharmatrix));
+        if(ret_read < 0) {
+            perror("bc_bigcharread read was failed\n");
+            exit(EXIT_FAILURE);
+        } else if(ret_read == sizeof(bigcharmatrix)) {
+            read_count++;
+            _bc_int_order_from_bigcharmatrix(&bcm, &big[i*2]);
+        } else if(ret_read == 0) {
+            break;
+        } else {
+            perror("bc_bigcharread read was failed, maybe file format corrupted\n");
+            exit(EXIT_FAILURE);
+        }
+    }
+    *count = read_count;
     return 0;
 }
 
