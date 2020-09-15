@@ -12,6 +12,7 @@ int test_bc_printA(void) {
     char *to_print = "TEST STRING: test string";
     int ret_value;
     
+    mt_clrscr();
     printf("Test bc_printA function\n");
     printf("Case 1: Input is not NULL\n");
     printf("Input string:%s\n", to_print);
@@ -19,11 +20,15 @@ int test_bc_printA(void) {
     ret_value = bc_printA(to_print);
     printf("\n");
     printf("And has return value:%d\n", ret_value);
+    sleep(10);
+    mt_clrscr();
+    printf("Test bc_printA function\n");
     printf("Case 2: Input is NULL\n");
     printf("It looks like:");
     ret_value = bc_printA(NULL);
     printf("\n");
     printf("And has return value:%d\n", ret_value);
+    sleep(10);
     return 0;
 }
 
