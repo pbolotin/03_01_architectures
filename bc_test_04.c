@@ -7,7 +7,58 @@
 #include <sys/types.h>
 #include "lab_04/myBigChars.h"
 
+int test_bc_printA(void) {
+    
+    char *to_print = "TEST STRING: test string";
+    int ret_value;
+    
+    printf("Test bc_printA function\n");
+    printf("Case 1: Input is not NULL\n");
+    printf("Input string:%s\n", to_print);
+    printf("It looks like:");
+    ret_value = bc_printA(to_print);
+    printf("\n");
+    printf("And has return value:%d\n", ret_value);
+    printf("Case 2: Input is NULL\n");
+    printf("It looks like:");
+    ret_value = bc_printA(NULL);
+    printf("\n");
+    printf("And has return value:%d\n", ret_value);
+    return 0;
+}
+
+int test_bc_box(void) {
+    return 0;
+}
+
+int test_bc_printbigchar(void) {
+    return 0;
+}
+
+int test_bc_setbigcharpos(void) {
+    return 0;
+}
+
+int test_bc_getbigcharpos(void) {
+    return 0;
+}
+
+int test_bc_bigcharwrite(void)  {
+    return 0;
+}
+
+int test_bc_bigcharread(void) {
+    return 0;
+}
+
 int main() {
+    test_bc_printA();
+    test_bc_box();
+    test_bc_printbigchar();
+    test_bc_setbigcharpos();
+    test_bc_getbigcharpos();
+    test_bc_bigcharwrite();
+    test_bc_bigcharread();
     /*
     printf("All chars:");
     for(int i = 0 ; i < 256; i++) {
