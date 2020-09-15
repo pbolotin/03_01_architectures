@@ -512,7 +512,7 @@ int bc_setbigcharpos(int *big, int x, int y, int value) {
 
 //get value of the "symbolplace" of the big symbol in row x and col y
 int bc_getbigcharpos(int *big, int x, int y, int *value) {
-    printf("bc_getbigcharpos test\n");
+    //printf("bc_getbigcharpos test\n");
     if(big == NULL || value == NULL || (x < 0 || x > 7) || (y < 0 || y > 7)) return -1;
     bigcharmatrix temp_bcm;
     bigcharmatrix *bcm = &temp_bcm;

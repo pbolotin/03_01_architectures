@@ -145,10 +145,51 @@ int test_bc_printbigchar(void) {
 }
 
 int test_bc_setbigcharpos(void) {
+    mt_clrscr();
+    printf("test_bc_setbigcharpos function:\n");
+    sleep(4);
+    int ret_value;
+    int bigchar[2];
+    memset(bigchar, 0, sizeof(int)*2);
+    
+    int i;
+    for(i = 0; i < 9; i++) {
+        mt_clrscr();
+        printf("Try add [1] at row:%d col:%d in bigchar\n", i, i);
+        ret_value = bc_setbigcharpos(bigchar, i, i, 1);
+        printf("return value is:%d\n", ret_value);
+        bc_printbigchar(bigchar, 3, 1, FG_BLACK, BG_BLUE);
+        printf("\n");
+        mt_setfgcolor(FG_LIGHT_GRAY);
+        mt_setbgcolor(BG_BLACK);
+        sleep(2);
+        mt_clrscr();
+        printf("Try add 1 at row:%d col:%d in bigchar\n", 7-i, i);
+        ret_value = bc_setbigcharpos(bigchar, 7-i, i, 1);
+        printf("return value is:%d\n", ret_value);
+        bc_printbigchar(bigchar, 3, 1, FG_BLACK, BG_BLUE);
+        printf("\n");
+        mt_setfgcolor(FG_LIGHT_GRAY);
+        mt_setbgcolor(BG_BLACK);
+        sleep(2);
+    }
     return 0;
 }
 
 int test_bc_getbigcharpos(void) {
+    int ret_value;
+    int bigchar[2];
+    int value;
+    int i, j;
+    for(i = 0; i < 8; i++) {
+        for(j = 0; j < 8; j++) {
+            bc_getbigcharpos(bigchar, i, j, &value);
+            if(value != 0) {
+                printf("(%d, %d)\n", i, j);
+            }
+        }
+    }
+    bc_printbigchar(bigchar, 1, 1, FG_WHITE, BG_BLACK);
     return 0;
 }
 
@@ -163,8 +204,8 @@ int test_bc_bigcharread(void) {
 int main() {
     //test_bc_printA();
     //test_bc_box();
-    test_bc_printbigchar();
-    //test_bc_setbigcharpos();
+    //test_bc_printbigchar();
+    test_bc_setbigcharpos();
     //test_bc_getbigcharpos();
     //test_bc_bigcharwrite();
     //test_bc_bigcharread();
