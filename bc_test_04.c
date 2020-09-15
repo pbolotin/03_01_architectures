@@ -146,7 +146,7 @@ int test_bc_printbigchar(void) {
 
 int test_bc_setbigcharpos(void) {
     mt_clrscr();
-    printf("test_bc_setbigcharpos function:\n");
+    printf("test_bc_setbigcharpos function case 1:\n");
     sleep(4);
     int ret_value;
     int bigchar[2];
@@ -164,7 +164,7 @@ int test_bc_setbigcharpos(void) {
         mt_setbgcolor(BG_BLACK);
         sleep(2);
         mt_clrscr();
-        printf("Try add 1 at row:%d col:%d in bigchar\n", 7-i, i);
+        printf("Try add [1] at row:%d col:%d in bigchar\n", 7-i, i);
         ret_value = bc_setbigcharpos(bigchar, 7-i, i, 1);
         printf("return value is:%d\n", ret_value);
         bc_printbigchar(bigchar, 3, 1, FG_BLACK, BG_BLUE);
@@ -173,6 +173,40 @@ int test_bc_setbigcharpos(void) {
         mt_setbgcolor(BG_BLACK);
         sleep(2);
     }
+    
+    mt_clrscr();
+    printf("test_bc_setbigcharpos function case 2:\n");
+    sleep(4);
+    memset(bigchar, 0xFF, sizeof(int)*2);
+    
+    for(i = 0; i < 9; i++) {
+        mt_clrscr();
+        printf("Try add [0] at row:%d col:%d in bigchar\n", i, i);
+        ret_value = bc_setbigcharpos(bigchar, i, i, 0);
+        printf("return value is:%d\n", ret_value);
+        bc_printbigchar(bigchar, 3, 1, FG_BLACK, BG_BLUE);
+        printf("\n");
+        mt_setfgcolor(FG_LIGHT_GRAY);
+        mt_setbgcolor(BG_BLACK);
+        sleep(2);
+        mt_clrscr();
+        printf("Try add [0] at row:%d col:%d in bigchar\n", 7-i, i);
+        ret_value = bc_setbigcharpos(bigchar, 7-i, i, 0);
+        printf("return value is:%d\n", ret_value);
+        bc_printbigchar(bigchar, 3, 1, FG_BLACK, BG_BLUE);
+        printf("\n");
+        mt_setfgcolor(FG_LIGHT_GRAY);
+        mt_setbgcolor(BG_BLACK);
+        sleep(2);
+    }
+    
+    mt_clrscr();
+    printf("test_bc_setbigcharpos function case 3:\n");
+    printf("try to use NULL as pointer to big char\n");
+    printf("Try add [1] at row:%d col:%d in bigchar\n", 1, 1);
+    ret_value = bc_setbigcharpos(NULL, 1, 1, 1);
+    printf("return value is:%d\n", ret_value);
+    sleep(4);
     return 0;
 }
 
