@@ -28,6 +28,51 @@ int test_bc_printA(void) {
 }
 
 int test_bc_box(void) {
+    int ret_value;
+    int row, col;
+    int height, width;
+    
+    /*Minimal size:*/
+    mt_clrscr();
+    mt_gotoXY(1,1);
+    printf("Now test bc_box with minimal size: 1,1,2,2\n");
+    printf("After 5 second here will be the 2 char side square\n");
+    sleep(5);
+    ret_value = bc_box(1,1,2,2);
+    printf("\nReturn value of bc_box:%d\n", ret_value);
+    sleep(5);
+    
+    /*Test size with less width than it can be*/
+    mt_clrscr();
+    mt_gotoXY(1,1);
+    printf("Now test bc_box with incorrect size: 1,1,2,1\n");
+    sleep(5);
+    ret_value = bc_box(1,1,2,1);
+    printf("\nReturn value of bc_box:%d\n", ret_value);
+    sleep(5);
+    
+    /*Max size*/
+    mt_clrscr();
+    mt_gotoXY(1,1);
+    mt_getscreensize(&height, &width);
+    printf("Now test bc_box with max size: 1,1,%d,%d\n", height, width);
+    printf("After 5 second here will be box\n");
+    sleep(5);
+    ret_value = bc_box(1,1,height, width);
+    mt_gotoXY(2,2);
+    printf("Return value of bc_box:%d               \n", ret_value);
+    sleep(5);
+    
+    /*Test size with more width than it can be*/
+    mt_clrscr();
+    mt_gotoXY(1,1);
+    mt_getscreensize(&height, &width);
+    printf("Now test bc_box with incorrect size: 1,1,%d,%d\n", height, width + 1);
+    sleep(5);
+    ret_value = bc_box(1,1,height,width + 1);
+    printf("\nReturn value of bc_box:%d\n", ret_value);
+    sleep(5);
+    
     return 0;
 }
 
