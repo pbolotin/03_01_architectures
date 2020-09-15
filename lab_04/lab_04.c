@@ -174,10 +174,17 @@ int bc_box(int x1, int y1, int x2, int y2) {
 //x row, y col, color foreground, color background
 //output bits of int array
 int bc_printbigchar(int arr[2], int x, int y, enum colors f, enum colors b) {
-    printf("bc_printbigchar test\n");
+    //printf("bc_printbigchar test\n");
+    if(arr == NULL) return -1;
+    int height, width;
+    mt_getscreensize(&height, &width);
+    if(x < 1 || y < 1 || x + 8 > height || y + 8 > width) return -1;
+    
+    /*Try to set color*/
+    if(-1 == mt_setfgcolor(f)) return -1;
+    if(-1 == mt_setbgcolor(b)) return -1;
+    
     /*Output*/
-    mt_setfgcolor(f);
-    mt_setbgcolor(b);
     printf("%s", ALT_CHARSET_ON);
     bigcharmatrix temp_bcm;
     bigcharmatrix *bcm = &temp_bcm;
