@@ -211,19 +211,45 @@ int test_bc_setbigcharpos(void) {
 }
 
 int test_bc_getbigcharpos(void) {
-    int ret_value;
+    mt_clrscr();
+    printf("test bc_getbigcharpos function case 1:\n");
+
     int bigchar[2];
+    _bc_getbigcharmatrix_as_int_array_by_number(2, bigchar);
+    bc_printbigchar(bigchar, 2, 1, FG_BLACK, BG_LIGHT_GREEN);
+    printf("\n");
+    mt_setfgcolor(FG_LIGHT_GRAY);
+    mt_setbgcolor(BG_BLACK);
+    
+    int ret_value;
     int value;
     int i, j;
-    for(i = 0; i < 8; i++) {
-        for(j = 0; j < 8; j++) {
-            bc_getbigcharpos(bigchar, i, j, &value);
-            if(value != 0) {
-                printf("(%d, %d)\n", i, j);
-            }
+    for(i = 0; i < 9; i++) {
+        for(j = 0; j < 9; j++) {
+            ret_value = bc_getbigcharpos(bigchar, i, j, &value);
+            mt_gotoXY(10, 1);
+            printf("Try to get at row:%d, col:%d\n", i, j);
+            printf("Return value (0 is success, -1 is error):%2d\n", ret_value);
+            printf("Value (what in matrix in this pos):%d\n", value);
+            sleep(1);
         }
     }
-    bc_printbigchar(bigchar, 1, 1, FG_WHITE, BG_BLACK);
+    
+    mt_clrscr();
+    printf("test bc_getbigcharpos function case 2:\n");
+    printf("Try to use NULL instead pointer to value\n");
+    ret_value = bc_getbigcharpos(bigchar, 1, 1, NULL);
+    printf("Try to get at row:%d, col:%d\n", 1, 1);
+    printf("Return value (0 is success, -1 is error):%d\n", ret_value);
+    sleep(4);
+    
+    mt_clrscr();
+    printf("test bc_getbigcharpos function case 3:\n");
+    printf("Try to use NULL instead pointer to bigchar\n");
+    ret_value = bc_getbigcharpos(NULL, 1, 1, &value);
+    printf("Try to get at row:%d, col:%d\n", 1, 1);
+    printf("Return value (0 is success, -1 is error):%d\n", ret_value);
+    sleep(4);
     return 0;
 }
 
@@ -239,8 +265,8 @@ int main() {
     //test_bc_printA();
     //test_bc_box();
     //test_bc_printbigchar();
-    test_bc_setbigcharpos();
-    //test_bc_getbigcharpos();
+    //test_bc_setbigcharpos();
+    test_bc_getbigcharpos();
     //test_bc_bigcharwrite();
     //test_bc_bigcharread();
     /*
