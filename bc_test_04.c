@@ -82,6 +82,65 @@ int test_bc_box(void) {
 }
 
 int test_bc_printbigchar(void) {
+    int bigchar[2];
+    int ret_value;
+    int posX, posY;
+    int i;
+    
+    memset(&bigchar, 0, sizeof(int)*2);
+    
+    mt_clrscr();
+    printf("Now test printing of bigchars:\n");
+    for(i = 0; i < 10; i++) {
+        _bc_getbigcharmatrix_as_int_array_by_number(i, bigchar);
+        posX = 2, posY = 1 + i*8;
+        ret_value = bc_printbigchar(bigchar, posX, posY, FG_BLACK, BG_BLACK+i%7+1);
+        mt_setfgcolor(FG_LIGHT_GRAY);
+        mt_setbgcolor(BG_BLACK);
+        printf("\nposition was row:%d col:%d\n", posX, posY);
+        printf("colors was fg:%d bg:%d\n", FG_BLACK, BG_BLACK+i%7+1);
+        printf("return value:%d\n", ret_value);
+        sleep(2);
+    }
+    
+    int height, width;
+    mt_getscreensize(&height, &width);
+    mt_clrscr();
+    printf("Now screen, row:%d, col:%d\n", height, width);
+    printf("Try to print big char out of screen\n");
+    _bc_getbigcharmatrix_as_int_array_by_number(0, bigchar);
+    posX = 3, posY = width - 8 + 1;
+    ret_value = bc_printbigchar(bigchar, posX, posY, FG_BLACK, BG_BLACK+1);
+    mt_setfgcolor(FG_LIGHT_GRAY);
+    mt_setbgcolor(BG_BLACK);
+    printf("\nposition was row:%d col:%d\n", posX, posY);
+    printf("colors was fg:%d bg:%d\n", FG_BLACK, BG_BLACK+1);
+    printf("return value:%d\n", ret_value);
+    sleep(5);
+    
+    mt_clrscr();
+    printf("Try to print big char with NULL pointer\n");
+    posX = 2, posY = 1;
+    ret_value = bc_printbigchar(NULL, posX, posY, FG_BLACK, BG_BLACK+1);
+    mt_setfgcolor(FG_LIGHT_GRAY);
+    mt_setbgcolor(BG_BLACK);
+    printf("\nposition was row:%d col:%d\n", posX, posY);
+    printf("colors was fg:%d bg:%d\n", FG_BLACK, BG_BLACK+1);
+    printf("return value:%d\n", ret_value);
+    sleep(5);
+    
+    mt_clrscr();
+    printf("Try to print big char with wrong colors\n");
+    posX = 2, posY = 1;
+    _bc_getbigcharmatrix_as_int_array_by_number(0, bigchar);
+    ret_value = bc_printbigchar(bigchar, posX, posY, BG_BLACK, FG_BLACK+1);
+    mt_setfgcolor(FG_LIGHT_GRAY);
+    mt_setbgcolor(BG_BLACK);
+    printf("\nposition was row:%d col:%d\n", posX, posY);
+    printf("colors was fg:%d bg:%d\n", BG_BLACK, FG_BLACK+1);
+    printf("return value:%d\n", ret_value);
+    sleep(5);
+    
     return 0;
 }
 
@@ -102,13 +161,13 @@ int test_bc_bigcharread(void) {
 }
 
 int main() {
-    test_bc_printA();
-    test_bc_box();
+    //test_bc_printA();
+    //test_bc_box();
     test_bc_printbigchar();
-    test_bc_setbigcharpos();
-    test_bc_getbigcharpos();
-    test_bc_bigcharwrite();
-    test_bc_bigcharread();
+    //test_bc_setbigcharpos();
+    //test_bc_getbigcharpos();
+    //test_bc_bigcharwrite();
+    //test_bc_bigcharread();
     /*
     printf("All chars:");
     for(int i = 0 ; i < 256; i++) {
@@ -119,28 +178,6 @@ int main() {
     }*/
     //bc_printA("taaaat");
     //bc_box(1, 1, 24, 124);
-    int bigchar[2];
-    memset(&bigchar, 0, sizeof(int)*2);
-    //_bc_getbigcharmatrix_as_int_array_by_number(0, bigchar);
-    //bc_printbigchar(bigchar, 1, 1, FG_WHITE, BG_BLUE);
-    //_bc_getbigcharmatrix_as_int_array_by_number(1, bigchar);
-    //bc_printbigchar(bigchar, 1, 8+1, FG_LIGHT_PURPLE, BG_BLACK);
-    //_bc_getbigcharmatrix_as_int_array_by_number(2, bigchar);
-    //bc_printbigchar(bigchar, 1, 16+1, FG_WHITE, BG_BLUE);
-    //_bc_getbigcharmatrix_as_int_array_by_number(3, bigchar);
-    //bc_printbigchar(bigchar, 1, 24+1, FG_WHITE, BG_BLACK);
-    //_bc_getbigcharmatrix_as_int_array_by_number(4, bigchar);
-    //bc_printbigchar(bigchar, 1, 32+1, FG_YELLOW, BG_BLUE);
-    //_bc_getbigcharmatrix_as_int_array_by_number(5, bigchar);
-    //bc_printbigchar(bigchar, 1, 40+1, FG_RED, BG_BLACK);
-    //_bc_getbigcharmatrix_as_int_array_by_number(6, bigchar);
-    //bc_printbigchar(bigchar, 1, 48+1, FG_YELLOW, BG_BLUE);
-    //_bc_getbigcharmatrix_as_int_array_by_number(7, bigchar);
-    //bc_printbigchar(bigchar, 1, 56+1, FG_RED, BG_WHITE);
-    //_bc_getbigcharmatrix_as_int_array_by_number(8, bigchar);
-    //bc_printbigchar(bigchar, 1, 64+1, FG_YELLOW, BG_WHITE);
-    //_bc_getbigcharmatrix_as_int_array_by_number(9, bigchar);
-    //bc_printbigchar(bigchar, 1, 72+1, FG_BLACK, BG_WHITE);
     //bc_getbigcharpos
     //int i;
     //for(i = 0; i < 8; i++) {
