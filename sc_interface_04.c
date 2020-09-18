@@ -78,6 +78,13 @@ int output_reg_flags(int rowY, int colX) {
     return 0;
 }
 
+int output_operation(int rowY, int colX) {
+    bc_box(rowY, colX, 3, 22);
+    mt_gotoXY(rowY, colX + 5);
+    printf(" Operation ");
+    return 0;
+}
+
 int output_reg_command_counter(int rowY, int colX) {
     char show[6] = {0,0,0,0,0,0};
 
@@ -209,6 +216,7 @@ int main(void) {
     sc_regSet(FLAG_IGNORE_IMPULESES, 1);
     sc_regSet(FLAG_WRONG_COMMAND, 1);
     output_reg_flags(11, 70);
+    output_operation(7, 63);
     output_reg_command_counter(5, 70);
     output_reg_accumulator(2, 70);
     output_memory(2, 2);
