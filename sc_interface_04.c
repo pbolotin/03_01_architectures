@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "lab_02/lab_02.h"
 #include "lab_03/myTerm.h"
+#include "lab_04/myBigChars.h"
 
 int initialize(void) {
     sc_memoryInit();
@@ -22,6 +24,9 @@ int output_memory(int rowY, int colX) {
     char show[6] = {0,0,0,0,0,0};
     int current_row = 0;
     //cursor_address=\E[%i%p1%d;%p2%dH
+    bc_box(1,1,12,62);
+    mt_gotoXY(1,31);
+    printf(" Memory ");
     char cursormoveto[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     for(i = 0; i < SC_MEMORY_SIZE; i++) {
         sc_memoryGet(i, &memValue);
@@ -70,6 +75,9 @@ int output_reg_flags(int rowY, int colX) {
     if(sc_reg_flags & FLAG_WRONG_COMMAND) show[8] = 'C';
 
     //cursor_address=\E[%i%p1%d;%p2%dH
+    bc_box(10,63,3,21);
+    mt_gotoXY(10,69);
+    printf(" Flags ");
     sprintf(cursormoveto, "\E[%d;%dH", rowY, colX);
     printf("%s", cursormoveto);
     printf("%s", show);
@@ -81,8 +89,10 @@ int output_reg_command_counter(int rowY, int colX) {
     char show[6] = {0,0,0,0,0,0};
     char cursormoveto[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
+    bc_box(4,63,3,21);
+    mt_gotoXY(4,63);
+    printf(" instructionCounter ");
     sprintf(show, "%c%04x", '+', sc_reg_command_counter);
-
     //cursor_address=\E[%i%p1%d;%p2%dH
     sprintf(cursormoveto, "\E[%d;%dH", rowY, colX);
     printf("%s", cursormoveto);
@@ -121,6 +131,9 @@ int output_reg_accumulator(int rowY, int colX) {
         sprintf(show, "%c%04x", '+', decCommand + decOperand);
     }
 
+    bc_box(1,63,3,21);
+    mt_gotoXY(1,67);
+    printf(" accumulator ");
     //cursor_address=\E[%i%p1%d;%p2%dH
     sprintf(cursormoveto, "\E[%d;%dH", rowY, colX);
     printf("%s", cursormoveto);
@@ -142,6 +155,9 @@ int output_keys_meaning(int rowY, int colX) {
     char cursormoveto[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     
     int i;
+    bc_box(13,48,10,36);
+    mt_gotoXY(13,50);
+    printf(" Keys: ");
     for(i = 0; i < 7; i++) {
         //cursor_address=\E[%i%p1%d;%p2%dH
         sprintf(cursormoveto, "\E[%d;%dH", rowY + i, colX);
@@ -151,11 +167,58 @@ int output_keys_meaning(int rowY, int colX) {
     return 0;
 }
 
+int output_memory_cell(int rowY, int colX) {
+    
+    int memValue;
+    sc_memoryGet(sc_reg_command_counter, &memValue);
+    
+    int decCommand;
+    int decOperand;
+    int ret;
+    char show[] = {0,0,0,0,0,0,0};
+    ret = sc_commandDecode(memValue, &decCommand, &decOperand);
+    /*Error handling*/
+    if(ret < 0) {
+        switch(sc_errno) {
+            case EPLACE:
+                fprintf(stderr, "ouput_memory sc_commandDecode\
+                           NULL as place where to put result?\n");
+                exit(EXIT_FAILURE);
+            break;
+            case ECOMMANDBIT:
+                //fprintf(stderr, "ouput_memory sc_commandDecode\
+                                value not a command!\n");
+                sprintf(show, "%c%04x", ' ', memValue);
+            break;
+            case EWRONGCOMMAND:
+                //fprintf(stderr, "ouput_memory sc_commandDecode\
+                                unknown command!\n");
+                sprintf(show, "%c%04x", '+', decCommand + decOperand);
+            break;
+        }
+    /*If decode was ok*/
+    } else {
+        sprintf(show, "%c%04x", '+', decCommand + decOperand);
+    }
+    int i;
+    int bigchar[2];
+    for(i = 0; i < 5; i++) {
+        _bc_getbigcharmatrix_as_int_array_by_char(show[i], bigchar);
+        bc_printbigchar(bigchar, rowY + 1, colX + 1 + i*9, FG_WHITE, BG_BLACK);
+    }
+    mt_setbgcolor(BG_BLACK);
+    mt_setfgcolor(FG_LIGHT_GRAY);
+    bc_box(rowY,colX, 10, 47);
+    return 0;
+}
+
 int main(void) {
     initialize();
     int value = 0;
     sc_commandEncode(OP_01_READ, 99, &value);
     sc_memorySet(10, value);
+    sc_commandEncode(OP_01_READ, 99, &value);
+    sc_memorySet(0, value);
     sc_regSet(FLAG_OPERATION_OVERFLOW, 1);
     sc_regSet(FLAG_ZERO_DIVIDITION, 1);
     sc_regSet(FLAG_MEM_ADDR_ERROR, 1);
@@ -166,6 +229,7 @@ int main(void) {
     output_reg_accumulator(2, 70);
     output_memory(2, 2);
     output_keys_meaning(14, 49);
+    output_memory_cell(13, 1);
     printf("\n");
     finalize();
     return 0;
