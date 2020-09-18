@@ -748,14 +748,14 @@ int bc_getbigcharpos(int *big, int x, int y, int *value) {
 
 //Save count of "big-symbols" in the file, format of the file is userdefined
 int bc_bigcharwrite(int fd, int* big, int count) {
-    printf("bc_bigcharwrite test\n");
+    //printf("bc_bigcharwrite test\n");
     if(fd < 0 || big == NULL || count < 1) return -1;
     int i;
     int wr_ret;
     bigcharmatrix bcm;
     for(i = 0; i < count; i++) {
         _bc_bigcharmatrix_from_int_order(&big[i*2], &bcm);
-        printf("write %d\n", i);
+        //printf("write %d\n", i);
         wr_ret = write(fd, &bcm, sizeof(bcm));
         if(wr_ret < 0) {
             perror("bc_bigcharwrite write call is failed\n");
@@ -767,7 +767,7 @@ int bc_bigcharwrite(int fd, int* big, int count) {
 
 //Read count of "big-symbols" from the file, count for how many was read, or error
 int bc_bigcharread(int fd, int* big, int need_count, int *count) {
-    printf("bc_bigcharread test\n");
+    //printf("bc_bigcharread test\n");
     if(fd < 0 || big == NULL || need_count < 1 || count == NULL) return -1;
     int i;
     bigcharmatrix bcm;
@@ -781,6 +781,11 @@ int bc_bigcharread(int fd, int* big, int need_count, int *count) {
         } else if(ret_read == sizeof(bigcharmatrix)) {
             read_count++;
             _bc_int_order_from_bigcharmatrix(&bcm, &big[i*2]);
+            //bc_printbigchar(&big[i*2], 6, 9, FG_BLACK, BG_WHITE);
+            //mt_setbgcolor(BG_BLACK);
+            //mt_setfgcolor(FG_LIGHT_GRAY);
+            //printf("\n%d, %d\n", i, ret_read);
+            //sleep(1);
         } else if(ret_read == 0) {
             break;
         } else {
