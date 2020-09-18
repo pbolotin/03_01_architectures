@@ -23,11 +23,9 @@ int output_memory(int rowY, int colX) {
     int ret = 0;
     char show[6] = {0,0,0,0,0,0};
     int current_row = 0;
-    //cursor_address=\E[%i%p1%d;%p2%dH
     bc_box(1,1,12,62);
     mt_gotoXY(1,31);
     printf(" Memory ");
-    char cursormoveto[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     for(i = 0; i < SC_MEMORY_SIZE; i++) {
         sc_memoryGet(i, &memValue);
         ret = sc_commandDecode(memValue, &decCommand, &decOperand);
@@ -55,9 +53,7 @@ int output_memory(int rowY, int colX) {
             sprintf(show, "%c%04x", '+', decCommand + decOperand);
         }
         if(i%10 == 0) {
-            //cursor_address=\E[%i%p1%d;%p2%dH
-            sprintf(cursormoveto, "\E[%d;%dH", rowY + current_row, colX);
-            printf("%s", cursormoveto);
+            mt_gotoXY(rowY + current_row, colX);
             current_row++;
         }
         printf(" %s", show);
@@ -67,19 +63,16 @@ int output_memory(int rowY, int colX) {
 
 int output_reg_flags(int rowY, int colX) {
     char show[] = {' ',' ',' ',' ',' ',' ',' ',' ',' ',0};
-    char cursormoveto[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     if(sc_reg_flags & FLAG_OPERATION_OVERFLOW) show[0] = 'O';
     if(sc_reg_flags & FLAG_ZERO_DIVIDITION) show[2] = 'Z';
     if(sc_reg_flags & FLAG_MEM_ADDR_ERROR) show[4] = 'M';
     if(sc_reg_flags & FLAG_IGNORE_IMPULESES) show[6] = 'I';
     if(sc_reg_flags & FLAG_WRONG_COMMAND) show[8] = 'C';
 
-    //cursor_address=\E[%i%p1%d;%p2%dH
-    bc_box(10,63,3,21);
+    bc_box(10,63,3,22);
     mt_gotoXY(10,69);
     printf(" Flags ");
-    sprintf(cursormoveto, "\E[%d;%dH", rowY, colX);
-    printf("%s", cursormoveto);
+    mt_gotoXY(rowY,colX);    
     printf("%s", show);
     
     return 0;
@@ -87,15 +80,12 @@ int output_reg_flags(int rowY, int colX) {
 
 int output_reg_command_counter(int rowY, int colX) {
     char show[6] = {0,0,0,0,0,0};
-    char cursormoveto[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
-    bc_box(4,63,3,21);
-    mt_gotoXY(4,63);
+    bc_box(4,63,3,22);
+    mt_gotoXY(4,64);
     printf(" instructionCounter ");
     sprintf(show, "%c%04x", '+', sc_reg_command_counter);
-    //cursor_address=\E[%i%p1%d;%p2%dH
-    sprintf(cursormoveto, "\E[%d;%dH", rowY, colX);
-    printf("%s", cursormoveto);
+    mt_gotoXY(rowY, colX);
     printf(" %s", show);
     
     return 0;
@@ -105,7 +95,6 @@ int output_reg_accumulator(int rowY, int colX) {
     int ret;
     int decCommand, decOperand;
     char show[6] = {0,0,0,0,0,0};
-    char cursormoveto[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     ret = sc_commandDecode(sc_reg_accumulator, &decCommand, &decOperand);
     /*Error handling*/
     if(ret < 0) {
@@ -131,12 +120,10 @@ int output_reg_accumulator(int rowY, int colX) {
         sprintf(show, "%c%04x", '+', decCommand + decOperand);
     }
 
-    bc_box(1,63,3,21);
+    bc_box(1,63,3,22);
     mt_gotoXY(1,67);
     printf(" accumulator ");
-    //cursor_address=\E[%i%p1%d;%p2%dH
-    sprintf(cursormoveto, "\E[%d;%dH", rowY, colX);
-    printf("%s", cursormoveto);
+    mt_gotoXY(rowY, colX);
     printf(" %s", show);
     
     return 0;
@@ -152,16 +139,13 @@ int output_keys_meaning(int rowY, int colX) {
         "F5 - accumulator",
         "F6 - instructionCounter"
     };
-    char cursormoveto[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     
     int i;
-    bc_box(13,48,10,36);
+    bc_box(13,48,10,37);
     mt_gotoXY(13,50);
     printf(" Keys: ");
     for(i = 0; i < 7; i++) {
-        //cursor_address=\E[%i%p1%d;%p2%dH
-        sprintf(cursormoveto, "\E[%d;%dH", rowY + i, colX);
-        printf("%s", cursormoveto);
+        mt_gotoXY(rowY + i, colX);
         printf("%s", show[i]);
     }
     return 0;
