@@ -254,48 +254,96 @@ int test_bc_getbigcharpos(void) {
 }
 
 int test_bc_bigcharwrite(void)  {
+    mt_clrscr();
+    printf("test bc_bigcharwrite function case 1:\n");
+    int big_digits[10*2];
+    /*Fill big_digits by the digit-matrixes*/
+    _bc_getbigcharmatrix_as_int_array_by_number(0, &big_digits[0*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(1, &big_digits[1*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(2, &big_digits[2*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(3, &big_digits[3*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(4, &big_digits[4*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(5, &big_digits[5*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(6, &big_digits[6*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(7, &big_digits[7*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(8, &big_digits[8*2]);
+    _bc_getbigcharmatrix_as_int_array_by_number(9, &big_digits[9*2]);
+    int count = 10;
+    int test_fd = open("big_digits.bin", O_CREAT|O_WRONLY, 0666);
+    if(test_fd < 0) {
+        perror("open to write in main failed\n");
+        exit(EXIT_FAILURE);
+    }
+    printf("Try to write 10 big digits (0123456789) into file:%s\n", "big_digits.bin");
+    int ret_value;
+    ret_value = bc_bigcharwrite(test_fd, big_digits, count);
+    printf("Return value:%d\n", ret_value);
+    close(test_fd);
+    
+    printf("Test to read from file, to make sure that all was wrote right\n");
+    //bc_bigcharread
+    int big_digits_read[10*2];
+    test_fd = open("big_digits.bin", O_RDONLY);
+    if(test_fd < 0) {
+        perror("open to read in main failed\n");
+        exit(EXIT_FAILURE);
+    }
+    int was_read;
+    int need_read = 10;
+    bc_bigcharread(test_fd, big_digits_read, need_read, &was_read);
+    close(test_fd);
+    
+    /*Test output*/
+    int i;
+    for(i = 0; i < 10; i++) {
+        bc_printbigchar(&big_digits_read[i*2], 5, 1, FG_BLACK, BG_LIGHT_BLUE);
+        printf("\n");
+        sleep(2);
+    }
+    mt_setbgcolor(BG_BLACK);
+    mt_setfgcolor(FG_LIGHT_GRAY);
+    
+    mt_clrscr();
+    printf("test bc_bigcharwrite function case 2:\n");
+    printf("Try to write 10 big digits (0123456789) into file:%s\n", "big_digits.bin");
+    printf("But not have the correct file descriptor now\n");
+    ret_value = bc_bigcharwrite(-1, big_digits, count);
+    printf("Return value:%d\n", ret_value);
+    sleep(5);
+    
+    mt_clrscr();
+    printf("test bc_bigcharwrite function case 3:\n");
+    test_fd = open("big_digits.bin", O_CREAT|O_WRONLY, 0666);
+    if(test_fd < 0) {
+        perror("open to write in main failed\n");
+        exit(EXIT_FAILURE);
+    }
+    printf("Try to write 10 big digits (0123456789) into file:%s\n", "big_digits.bin");
+    printf("But have zero count of records which need to write\n");
+    ret_value = bc_bigcharwrite(test_fd, big_digits, 0);
+    printf("Return value:%d\n", ret_value);
+    close(test_fd);
+    sleep(5);
+    
+    mt_clrscr();
+    printf("test bc_bigcharwrite function case 4:\n");
+    test_fd = open("big_digits.bin", O_CREAT|O_WRONLY, 0666);
+    if(test_fd < 0) {
+        perror("open to write in main failed\n");
+        exit(EXIT_FAILURE);
+    }
+    printf("Try to write 10 big digits (0123456789) into file:%s\n", "big_digits.bin");
+    printf("But by mistake send NULL istead poiter to array fo big digits\n");
+    ret_value = bc_bigcharwrite(test_fd, NULL, count);
+    printf("Return value:%d\n", ret_value);
+    close(test_fd);
+    sleep(5);
     return 0;
 }
 
 int test_bc_bigcharread(void) {
-    return 0;
-}
-
-int main() {
-    //test_bc_printA();
-    //test_bc_box();
-    //test_bc_printbigchar();
-    //test_bc_setbigcharpos();
-    test_bc_getbigcharpos();
-    //test_bc_bigcharwrite();
-    //test_bc_bigcharread();
-    /*
-    printf("All chars:");
-    for(int i = 0 ; i < 256; i++) {
-        printf("%d - %c - ", i ,(unsigned char)i);
-        printf("%s", ALT_CHARSET_ON);
-        printf("%c\n", (unsigned char)i);
-        printf("%s", ALT_CHARSET_OFF);
-    }*/
-    //bc_printA("taaaat");
-    //bc_box(1, 1, 24, 124);
-    //bc_getbigcharpos
-    //int i;
-    //for(i = 0; i < 8; i++) {
-        //bc_setbigcharpos(bigchar, i, i, 1);
-        //bc_setbigcharpos(bigchar, 7-i, i, 1);
-    //}
-    //int value;
-    //int j;
-    //for(i = 0; i < 8; i++) {
-        //for(j = 0; j < 8; j++) {
-            //bc_getbigcharpos(bigchar, i, j, &value);
-            //if(value != 0) {
-                //printf("(%d, %d)\n", i, j);
-            //}
-        //}
-    //}
-    //bc_printbigchar(bigchar, 1, 1, FG_WHITE, BG_BLACK);
+    mt_clrscr();
+    printf("test bc_bigcharread function case 1:\n");
     int big_digits[10*2];
     /*Fill big_digits by the digit-matrixes*/
     _bc_getbigcharmatrix_as_int_array_by_number(0, &big_digits[0*2]);
@@ -317,6 +365,7 @@ int main() {
     bc_bigcharwrite(test_fd, big_digits, count);
     close(test_fd);
     
+    printf("10 digits were written into the file: big_digits.bin\n");
     //bc_bigcharread
     int big_digits_read[10*2];
     test_fd = open("big_digits.bin", O_RDONLY);
@@ -324,17 +373,122 @@ int main() {
         perror("open to read in main failed\n");
         exit(EXIT_FAILURE);
     }
+    int ret_value;
     int was_read;
     int need_read = 10;
-    bc_bigcharread(test_fd, big_digits_read, need_read, &was_read);
+    printf("Now try to read all 10 digits from this file\n");
+    ret_value = bc_bigcharread(test_fd, big_digits_read, need_read, &was_read);
+    printf("Return value is: %d. arg number 4 after calling is: %d\n", ret_value, was_read);
+    printf("Show what was read:\n");
     close(test_fd);
     
     /*Test output*/
     int i;
-    for(i = 0; i < 10; i++) {
-        bc_printbigchar(&big_digits_read[i*2], 1, 1, FG_WHITE, BG_BLUE);
+    for(i = 0; i < was_read; i++) {
+        ret_value = bc_printbigchar(&big_digits_read[i*2], 6, 1, FG_BLACK, BG_LIGHT_RED);
+        printf("\n");
         sleep(2);
     }
+    sleep(4);
+    mt_setbgcolor(BG_BLACK);
+    mt_setfgcolor(FG_LIGHT_GRAY);
     
+    mt_clrscr();
+    printf("test bc_bigcharread function case 2:\n");
+    printf("10 digits were written into the file: big_digits.bin\n");
+    //bc_bigcharread
+    test_fd = open("big_digits.bin", O_RDONLY);
+    if(test_fd < 0) {
+        perror("open to read in main failed\n");
+        exit(EXIT_FAILURE);
+    }
+    need_read = 1;
+    printf("Now try to read just 1 digits from this file\n");
+    ret_value = bc_bigcharread(test_fd, big_digits_read, need_read, &was_read);
+    close(test_fd);
+    printf("Return value is: %d. arg number 4 after calling is: %d\n", ret_value, was_read);
+    printf("Show what was read:\n");
+    
+    /*Test output*/
+    i;
+    for(i = 0; i < was_read; i++) {
+        ret_value = bc_printbigchar(&big_digits_read[i*2], 6, 1, FG_BLACK, BG_LIGHT_GREEN);
+        printf("\n");
+        sleep(2);
+    }
+    sleep(4);
+    mt_setbgcolor(BG_BLACK);
+    mt_setfgcolor(FG_LIGHT_GRAY);
+    
+    mt_clrscr();
+    printf("test bc_bigcharread function case 3:\n");
+    printf("10 digits were written into the file: big_digits.bin\n");
+    //bc_bigcharread
+    test_fd = open("big_digits.bin", O_RDONLY);
+    if(test_fd < 0) {
+        perror("open to read in main failed\n");
+        exit(EXIT_FAILURE);
+    }
+    was_read = 0;
+    need_read = 0;
+    printf("Now try to read 0 digits from this file\n");
+    ret_value = bc_bigcharread(test_fd, big_digits_read, need_read, &was_read);
+    close(test_fd);
+    printf("Return value is: %d. Error, nothing was read\n", ret_value);
+    sleep(4);
+    //printf("Show what was read:\n");
+    
+    /*Test output*/
+    /*
+    for(i = 0; i < was_read; i++) {
+        ret_value = bc_printbigchar(&big_digits_read[i*2], 6, 1, FG_BLACK, BG_LIGHT_BLUE);
+        printf("\n");
+        sleep(2);
+    }
+    sleep(4);
+    mt_setbgcolor(BG_BLACK);
+    mt_setfgcolor(FG_LIGHT_GRAY);
+    */
+    
+    mt_clrscr();
+    printf("test bc_bigcharread function case 4:\n");
+    printf("10 digits were written into the file: big_digits.bin\n");
+    //bc_bigcharread
+    test_fd = open("big_digits.bin", O_RDONLY);
+    if(test_fd < 0) {
+        perror("open to read in main failed\n");
+        exit(EXIT_FAILURE);
+    }
+    was_read = 0;
+    need_read = 12;
+    printf("Now try to read %d digits from this file\n", need_read);
+    ret_value = bc_bigcharread(test_fd, big_digits_read, need_read, &was_read);
+    close(test_fd);
+    printf("Return value is: %d. was read: %d\n", ret_value, was_read);
+    printf("Show what was read:\n");
+    
+    /*Test output*/
+    i;
+    for(i = 0; i < was_read; i++) {
+        bc_printbigchar(&big_digits_read[i*2], 6, 1, FG_BLACK, BG_LIGHT_GREEN);
+        printf("\n");
+        sleep(2);
+    }
+    mt_setbgcolor(BG_BLACK);
+    mt_setfgcolor(FG_LIGHT_GRAY);
+    sleep(4);
+    
+    
+    return 0;
+}
+
+int main() {
+    test_bc_printA();
+    test_bc_box();
+    test_bc_printbigchar();
+    test_bc_setbigcharpos();
+    test_bc_getbigcharpos();
+    test_bc_bigcharwrite();
+    test_bc_bigcharread();
     return 0;
 }
