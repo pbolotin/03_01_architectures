@@ -19,6 +19,8 @@ extern const char* bigchar_6[8];
 extern const char* bigchar_7[8];
 extern const char* bigchar_8[8];
 extern const char* bigchar_9[8];
+extern const char* bigchar_plus[8];
+extern const char* bigchar_empty[8];
 
 /*Bit fields for bigchar representation*/
 typedef struct bigcharmatrix {
@@ -99,6 +101,8 @@ typedef struct bigcharmatrix {
 int _bc_setbigcharmatrix_from_strmatrix(const char** str, bigcharmatrix* bcm);
 
 int _bc_getbigcharmatrix_as_int_array_by_number(int number, int int_order_bcm[2]);
+
+int _bc_getbigcharmatrix_as_int_array_by_char(char symbol, int int_order_bcm[2]);
 
 int _bc_bigcharmatrix_from_int_order(const int int_order_bcm[2], bigcharmatrix* bcm);
 

@@ -115,6 +115,28 @@ const char* bigchar_9[8] = {
     "  aaaaa "
 };
 
+const char* bigchar_plus[8] = {
+    "        ",
+    "        ",
+    "    a   ",
+    "    a   ",
+    " aaaaaaa",
+    "    a   ",
+    "    a   ",
+    "        "
+};
+
+const char* bigchar_empty[8] = {
+    "        ",
+    "        ",
+    "        ",
+    "        ",
+    "        ",
+    "        ",
+    "        ",
+    "        "
+};
+
 //alt charset str output
 int bc_printA(char *str) {
     if(str == NULL) return -1;
@@ -1090,4 +1112,51 @@ int _bc_getbigcharmatrix_as_int_array_by_number(int number, int int_order_bcm[2]
     return 0;
 }
 
+int _bc_getbigcharmatrix_as_int_array_by_char(char symbol, int int_order_bcm[2]) {    
+    if((symbol < '0' || symbol > '9') && (symbol != '+' &&  symbol != ' ')) {
+             return -1;
+    }
+    if(int_order_bcm == NULL) return -1;
+    bigcharmatrix bcm;
+    switch(symbol) {
+        case '0':
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_0, &bcm);
+        break;
+        case '1':
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_1, &bcm);
+        break;
+        case '2':
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_2, &bcm);
+        break;
+        case '3':
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_3, &bcm);
+        break;
+        case '4':
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_4, &bcm);
+        break;
+        case '5':
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_5, &bcm);
+        break;
+        case '6':
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_6, &bcm);
+        break;
+        case '7':
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_7, &bcm);
+        break;
+        case '8':
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_8, &bcm);
+        break;
+        case '9':
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_9, &bcm);
+        break;
+        case '+':
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_plus, &bcm);
+        break;
+        case ' ':
+            _bc_setbigcharmatrix_from_strmatrix(bigchar_empty, &bcm);
+        break;
+    }
+    _bc_int_order_from_bigcharmatrix(&bcm, int_order_bcm);
+    return 0;
+}
 //all return 0 if success or -1 if failed
