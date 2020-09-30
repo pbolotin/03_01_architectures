@@ -15,7 +15,3 @@ int rk_mytermrestore(void)  {
 int rk_mytermregime(int regime, int vtime, int vmin, int echo, int sigint)  {
     return 0;
 }
-
-int main() {
-    return 0;
-}
