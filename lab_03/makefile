@@ -13,4 +13,4 @@ lab_03.o : lab_03.c lab_03.h
 		gcc -c lab_03.c -o lab_03.o
 
 clean :
-		rm -f *.o *.a
+		rm -f *.o *.a myTerm.h

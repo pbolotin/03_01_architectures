@@ -13,4 +13,4 @@ lab_05.o : lab_05.c lab_05.h
 		gcc -c lab_05.c -o lab_05.o
 
 clean :
-		rm -f *.o *.a
+		rm -f *.o *.a myReadKey.h

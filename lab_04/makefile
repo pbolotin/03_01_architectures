@@ -13,4 +13,4 @@ lab_04.o : lab_04.c lab_04.h
 		gcc -c lab_04.c -o lab_04.o
 
 clean :
-		rm -f *.o *.a
+		rm -f *.o *.a myBigChars.h
