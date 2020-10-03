@@ -3,6 +3,7 @@
 
 int main() {
     printf("rk_test_05");
-    rk_mytermsave();
+    enum keys key_place;
+    rk_readkey(&key_place);
     return 0;
 }
