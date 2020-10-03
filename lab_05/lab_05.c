@@ -35,5 +35,14 @@ int rk_mytermrestore(void)  {
 }
 
 int rk_mytermregime(int regime, int vtime, int vmin, int echo, int sigint)  {
+    /*
+    struct termios{
+        tcflag_t c_iflag;
+        tcflag_t c_oflag;
+        tcflag_t c_lflag;
+        tcflag_t c_cflag;
+        tcflag_t c_cc[NCCS];
+    }*/
+    
     return 0;
 }
