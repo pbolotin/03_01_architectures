@@ -37,6 +37,7 @@ int rk_mytermrestore(void)  {
 
 int rk_mytermregime(int regime, int vtime, int vmin, int echo, int sigint)  {
     if(vtime < 0 || vmin < 0) return -1;
+    
     /*
     struct termios{
         tcflag_t c_iflag;
@@ -45,20 +46,30 @@ int rk_mytermregime(int regime, int vtime, int vmin, int echo, int sigint)  {
         tcflag_t c_cflag;
         tcflag_t c_cc[NCCS];
     }*/
+    struct termios myTermStruct;
+    /*Load old termios value*/
+    tcgetattr(0, &myTermStruct);
+    
     if(regime & ICANON) {
         printf("Set ICANON flag\n");
+        myTermStruct.c_lflag |= ICANON;
     } else {
         printf("Unset ICANON flag\n");
+        myTermStruct.c_lflag &= ~ICANON;
     }
     if(echo & ECHO) {
         printf("Set ECHO flag\n");
+        myTermStruct.c_lflag |= ECHO;
     } else {
         printf("Unset ECHO flag\n");
+        myTermStruct.c_lflag &= ~ECHO;
     }
     if(sigint & ISIG) {
         printf("Set ISIG flag\n");
+        myTermStruct.c_lflag |= ISIG;
     } else {
         printf("Unset ISIG flag\n");
+        myTermStruct.c_lflag &= ~ISIG;
     }
     /*
     MIN == 0, TIME == 0 (polling read)
@@ -69,6 +80,8 @@ int rk_mytermregime(int regime, int vtime, int vmin, int echo, int sigint)  {
     */
     if(vmin == 0 && vtime == 0) {
         printf("Set polling read\n");
+        myTermStruct.c_cc[VMIN] = vmin;
+        myTermStruct.c_cc[VTIME] = vtime;
     }
     /*
     MIN > 0, TIME == 0 (blocking read)
@@ -77,6 +90,8 @@ int rk_mytermregime(int regime, int vtime, int vmin, int echo, int sigint)  {
     */
     else if(vmin > 0 && vtime == 0) {
         printf("Set blocking read\n");
+        myTermStruct.c_cc[VMIN] = vmin;
+        myTermStruct.c_cc[VTIME] = vtime;
     }
     /*
     MIN == 0, TIME > 0 (read with timeout)
@@ -91,6 +106,8 @@ int rk_mytermregime(int regime, int vtime, int vmin, int echo, int sigint)  {
     */ 
     else if(vmin == 0 && vtime > 0) {
         printf("Set read with timeout\n");
+        myTermStruct.c_cc[VMIN] = vmin;
+        myTermStruct.c_cc[VTIME] = vtime;
     }
     /* MIN > 0, TIME > 0 (read with interbyte timeout)
     TIME specifies the limit for a timer in tenths of a second.
@@ -109,6 +126,10 @@ int rk_mytermregime(int regime, int vtime, int vmin, int echo, int sigint)  {
     */
     else if(vmin > 0 && vtime > 0) {
         printf("Set read with interbyte timeout\n");
+        myTermStruct.c_cc[VMIN] = vmin;
+        myTermStruct.c_cc[VTIME] = vtime;
     }
+    /*Set new value of termios*/
+    tcsetattr(0, TCSADRAIN, &myTermStruct);
     return 0;
 }
