@@ -2,6 +2,11 @@
 #include <stdio.h>
 #include <termios.h>
 #include <sys/ioctl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <arpa/inet.h>
+#include <stdlib.h>
 #include "lab_05.h"
 
 int rk_readkey(enum keys * key) {
@@ -28,6 +33,50 @@ int rk_readkey(enum keys * key) {
 }
 
 int rk_mytermsave(void)  {
+    /*Open file to save state*/
+    int term_state_fd = open("05_term_state.bin", O_CREAT|O_WRONLY|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
+    if(term_state_fd < 0) {
+        perror("Error occured with trying to open file to save terminal state\n");
+        exit(-1);
+    }
+    /*struct termios{
+        tcflag_t c_iflag;
+        tcflag_t c_oflag;
+        tcflag_t c_lflag;
+        tcflag_t c_cflag;
+        tcflag_t c_cc[NCCS];
+    }*/
+    struct termios myTermStruct;
+    /*Load old termios value*/
+    tcgetattr(0, &myTermStruct);
+    
+    /*Variables to save data*/
+    u_int32_t* data_to_save[4+NCCS];
+    u_int32_t  data_to_save_in_order[4+NCCS];
+    
+    /*Convert to network order, and binary save*/
+    data_to_save[0] = (u_int32_t*)&myTermStruct.c_iflag;
+    data_to_save[1] = (u_int32_t*)&myTermStruct.c_oflag;
+    data_to_save[2] = (u_int32_t*)&myTermStruct.c_lflag;
+    data_to_save[3] = (u_int32_t*)&myTermStruct.c_cflag;
+    
+    int i;
+    for(i = 0; i < NCCS; i++) {
+        data_to_save[4+i] = (u_int32_t*)&myTermStruct.c_cc[i];
+    }
+    
+    ssize_t res;
+    for(i = 0; i < 4+NCCS; i++) {
+        data_to_save_in_order[i] = htonl(*data_to_save[i]);
+        /*Write*/
+        res = write(term_state_fd, &data_to_save_in_order[i], sizeof(u_int32_t));
+        if(res < 0) {
+            perror("write to 05_term_state.bin file was failed");
+            exit(-1);
+        }
+    }
+    
+    close(term_state_fd);
     return 0;
 }
 

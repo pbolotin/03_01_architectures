@@ -8,9 +8,10 @@
 int main() {
     printf("rk_test_05");
     enum keys key_place;
-    rk_mytermregime(~ICANON, 0, 1, ECHO, ISIG);
-    rk_readkey(&key_place);
+    //rk_mytermregime(~ICANON, 0, 1, ECHO, ISIG);
+    //rk_readkey(&key_place);
     rk_mytermregime(ICANON, 0, 0, ~ECHO, ISIG);
     rk_readkey(&key_place);
+    rk_mytermsave();
     return 0;
 }
