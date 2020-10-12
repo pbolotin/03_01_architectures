@@ -33,6 +33,11 @@ int rk_readkey(enum keys * key) {
 }
 
 int rk_mytermsave(void)  {
+    /*Test aim, sizes of tcflag_t and int*/
+    //printf("Size tcflag_t:%lu\n", sizeof(tcflag_t));
+    //printf("Size int:%lu\n", sizeof(int));
+    //result: 4 bytes both sizes
+    
     /*Open file to save state*/
     int term_state_fd = open("05_term_state.bin", O_CREAT|O_WRONLY|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
     if(term_state_fd < 0) {
