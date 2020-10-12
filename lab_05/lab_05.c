@@ -81,6 +81,49 @@ int rk_mytermsave(void)  {
 }
 
 int rk_mytermrestore(void)  {
+    /*Open file to restore state*/
+    int term_state_fd = open("05_term_state.bin", O_RDONLY);
+    if(term_state_fd < 0) {
+        perror("Error occured with trying to open file to restore terminal state\n");
+        exit(-1);
+    }
+    /*struct termios{
+        tcflag_t c_iflag;
+        tcflag_t c_oflag;
+        tcflag_t c_lflag;
+        tcflag_t c_cflag;
+        tcflag_t c_cc[NCCS];
+    }*/
+    struct termios myTermStruct;
+    
+    /*Variable to restore data*/
+    u_int32_t  data_to_restore_in_order[4+NCCS];
+    
+    /*Read from file*/
+    int i;
+    ssize_t res;
+    for(i = 0; i < 4+NCCS; i++) {
+        res = read(term_state_fd, &data_to_restore_in_order[i], sizeof(u_int32_t));
+        if(res < 0) {
+            perror("Error when reading from the terminal state file\n");
+            return -1;
+        }
+    }
+    
+    /*Convert to host order, and set to struct*/
+    myTermStruct.c_iflag = (tcflag_t)ntohl(data_to_restore_in_order[0]);
+    myTermStruct.c_oflag = (tcflag_t)ntohl(data_to_restore_in_order[1]);
+    myTermStruct.c_lflag = (tcflag_t)ntohl(data_to_restore_in_order[2]);
+    myTermStruct.c_cflag = (tcflag_t)ntohl(data_to_restore_in_order[3]);
+    
+    for(i = 0; i < NCCS; i++) {
+        myTermStruct.c_cc[i] = (tcflag_t)ntohl(data_to_restore_in_order[i+4]);
+    }
+    
+    /*Trying to set terminal state*/
+    tcsetattr(0, TCSADRAIN, &myTermStruct);
+    
+    close(term_state_fd);
     return 0;
 }
 

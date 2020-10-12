@@ -10,8 +10,9 @@ int main() {
     enum keys key_place;
     //rk_mytermregime(~ICANON, 0, 1, ECHO, ISIG);
     //rk_readkey(&key_place);
+    rk_mytermsave();
     rk_mytermregime(ICANON, 0, 0, ~ECHO, ISIG);
     rk_readkey(&key_place);
-    rk_mytermsave();
+    rk_mytermrestore();
     return 0;
 }
