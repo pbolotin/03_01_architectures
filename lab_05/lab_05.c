@@ -7,9 +7,55 @@
 #include <fcntl.h>
 #include <arpa/inet.h>
 #include <stdlib.h>
+#include <time.h>
+#include <string.h>
 #include "lab_05.h"
 
-int rk_readkey(enum keys * key) {
+char* _key_code_sequences[_HOW_MANY_CODES_SEQ] = {
+    "\163",//s
+    "\123",//S
+    "\154",//l
+    "\114",//L
+    "\161",//q
+    "\121",//Q
+    "\033\133\101",//KEY_UP
+    "\033\133\102",//KEY_DOWN
+    "\033\133\103",//KEY_RIGHT
+    "\033\133\104",//KEY_LEFT
+    "\033\133\061\065\176",//KEY_F5
+    "\033\133\061\067\176"//KEY_F6
+};
+
+int _my_ncmp(char* s1, char* s2, int how_many) {
+    for(int i = 0; i < how_many; i++) {
+        //printf("%dcmp %d %d\n", i, s1[i], s2[i]);
+        if(s1[i] != s2[i]) {
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int _rk_symbol_analysis(char* read_as_str) {
+    //printf("Do analysis\n");
+    int ncmp_result;
+    for(int i = 0; i < _HOW_MANY_CODES_SEQ; i++) {
+        ncmp_result = _my_ncmp(_key_code_sequences[i], read_as_str, strlen(_key_code_sequences[i]));
+        //printf("Cmp res %d\n", ncmp_result);
+        if(ncmp_result == 0) {
+            //printf("Match!\n");
+            return i;
+        }
+    }
+    return -1;
+}
+
+int rk_readkey(enum keys *key) {
+    //time_t   tv_sec;        /* seconds */
+    //long     tv_nsec;       /* nanoseconds */
+    struct timespec ts;
+    //clock_gettime(CLOCK_REALTIME, &ts);
+    
     int fd = 0;//stdin
     /*Check if fd is a tty*/
     if(!isatty(fd)) {
@@ -18,16 +64,43 @@ int rk_readkey(enum keys * key) {
     }
     char for_read;
     int read_res;
+    long new_time;
+    seq_element read_buffer[READ_BUFFER_SIZE];
+    char read_char_seq[READ_BUFFER_SIZE];
+    int counter = 0;
+    int analysis_res = -1;
     while(1) {
         read_res = read(0, &for_read, sizeof(for_read));
+        clock_gettime(CLOCK_REALTIME, &ts);
+        new_time = ts.tv_sec*1000000000 + ts.tv_nsec;
+        /*Check if timeout is*/
+        if(counter > 0) {
+            long diff_time = new_time - read_buffer[counter - 1].time;
+            if(diff_time > TIMEOUT_TO_NEW_KEY_NANOSEC) {
+                counter = 0;
+                *key = UNKNOWN_KEY;
+                break;
+            }
+        }
         if(0 == read_res) {
-            printf("\nNo input anymore\n");
+            //printf("\nNo input anymore\n");
             break;
         } else if(read_res < 0) {
             perror("\nError occured when reading\n");
             return -1;
         }
-        printf("Was read: %d\n", (int)for_read);
+        read_buffer[counter].code = for_read;
+        read_buffer[counter].time = new_time;
+        read_char_seq[counter] = for_read;
+        read_char_seq[counter+1] = 0;
+        analysis_res = _rk_symbol_analysis(read_char_seq);
+        if(analysis_res >= 0) {
+            /*CAUTON! ERROR WARNING, NEED TO HAVE THE SAME INDEXES IN KEY ENUM AND SEQ ARRAY*/
+            *key = analysis_res;
+            return 1;
+        }
+        //printf("Was read: %o at %ld\n", (int)for_read, read_buffer[counter].time);
+        counter++;
     }
     return 0;
 }
