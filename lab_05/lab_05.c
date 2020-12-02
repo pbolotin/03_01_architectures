@@ -93,13 +93,13 @@ int rk_readkey(enum keys *key) {
         read_buffer[counter].time = new_time;
         read_char_seq[counter] = for_read;
         read_char_seq[counter+1] = 0;
+        //printf("Was read: %o at %ld\n", (int)for_read, read_buffer[counter].time);
         analysis_res = _rk_symbol_analysis(read_char_seq);
         if(analysis_res >= 0) {
             /*CAUTON! ERROR WARNING, NEED TO HAVE THE SAME INDEXES IN KEY ENUM AND SEQ ARRAY*/
             *key = analysis_res;
             return 1;
         }
-        //printf("Was read: %o at %ld\n", (int)for_read, read_buffer[counter].time);
         counter++;
     }
     return 0;

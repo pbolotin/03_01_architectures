@@ -12,7 +12,9 @@ int main() {
     rk_mytermsave();
     
     //rk_mytermregime(~ICANON, 0, 1, ~ECHO, ISIG);
-    rk_mytermregime(~ICANON, 1, 0, ~ECHO, ISIG);
+    //rk_mytermregime(~ICANON, 1, 0, ~ECHO, ISIG);
+    rk_mytermregime(~ICANON, 0, 0, ~ECHO, ISIG);
+    //NOT WORK WITH ICANON!    
     //rk_mytermregime(ICANON, 0, 0, ~ECHO, ISIG);
     int flag_to_quit = 0;
     while(!flag_to_quit) {
