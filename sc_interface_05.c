@@ -1,6 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+#include <termios.h>
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <arpa/inet.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
+
 #include "lab_02/lab_02.h"
 #include "lab_03/myTerm.h"
 #include "lab_04/myBigChars.h"
@@ -224,6 +235,54 @@ int main(void) {
     output_keys_meaning(14, 49);
     output_memory_cell(13, 1);
     printf("\n");
+
+    //Cycle
+    enum keys key_place;
+    rk_mytermsave();
+    rk_mytermregime(~ICANON, 1, 0, ~ECHO, ISIG);
+    int flag_to_quit = 0;
+    while(!flag_to_quit) {
+        if(rk_readkey(&key_place) > 0) {
+            switch(key_place) {
+                case KEY_s:
+                case KEY_S:
+                    printf("S\n");
+                    break;
+                case KEY_l:
+                case KEY_L:
+                    printf("L\n");
+                    break;
+                case KEY_q:
+                case KEY_Q:
+                    printf("Q\n");
+                    flag_to_quit = 1;
+                    break;
+                case KEY_UP:
+                    printf("UP\n");
+                    break;
+                case KEY_DOWN:
+                    printf("DOWN\n");
+                    break;
+                case KEY_RIGHT:
+                    printf("RIGHT\n");
+                    break;
+                case KEY_LEFT:
+                    printf("LEFT\n");
+                    break;
+                case KEY_F5:
+                    printf("F5\n");
+                    break;
+                case KEY_F6:
+                    printf("F6\n");
+                    break;
+                case UNKNOWN_KEY:
+                    printf("UNKNOWN\n");
+                    break;
+            }
+        }
+    }
+    rk_mytermrestore();
+
     finalize();
     return 0;
 }
